@@ -13,5 +13,11 @@
         "psr-4": {
             "Gazlab\\Admin\\": "src/"
         }
+    },
+    "require": {
+        "almasaeed2010/adminlte": "3.0.*",
+        "phalcon/breadcrumbs": "dev-master",
+        "qrotux/phalcon-datatables": "dev-master",
+        "phalcon/incubator": "dev-master"
     }
 }

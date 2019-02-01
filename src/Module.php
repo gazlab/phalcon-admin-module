@@ -5,7 +5,10 @@ namespace Gazlab\Admin;
 use Phalcon\Avatar\Gravatar;
 use Phalcon\Config;
 use Phalcon\DiInterface;
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Loader;
+use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
@@ -27,7 +30,7 @@ class Module implements ModuleDefinitionInterface
         ]);
 
         $loader->registerDirs([
-            APP_PATH . '/modules/' . $di->get('dispatcher')->getModuleName() . '/controllers',
+            APP_PATH . '/modules/' . $di['router']->getModuleName() . '/controllers',
         ]);
 
         $loader->register();
@@ -94,11 +97,36 @@ class Module implements ModuleDefinitionInterface
             // Get Gravatar instance
             $gravatar = new Gravatar([]);
 
-            $gravatar->setDefaultImage('wavatar')
+            $gravatar->setDefaultImage('mm')
                 ->setSize(160)
                 ->setRating(Gravatar::RATING_PG);
 
             return $gravatar;
         });
+
+        $di->setShared(
+            'dispatcher',
+            function () {
+                // Create an event manager
+                $eventsManager = new EventsManager();
+
+                // Attach a listener for type 'dispatch'
+                $eventsManager->attach(
+                    'dispatch:beforeDispatchLoop',
+                    function (Event $event, $dispatcher) {
+                        $ar = $this->getConfig()->adminResources->toArray();
+                        if (!in_array($dispatcher->getControllerName(), array_keys($ar))) {
+                            $dispatcher->setNamespaceName('');
+                        }
+                    }
+                );
+
+                $dispatcher = new MvcDispatcher();
+
+                // Bind the eventsManager to the view component
+                $dispatcher->setEventsManager($eventsManager);
+
+                return $dispatcher;
+            });
     }
 }

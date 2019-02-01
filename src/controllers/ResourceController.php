@@ -8,9 +8,9 @@ class ResourceController extends ControllerBase
     private $columns = [];
     private $formRows = [];
 
-    public function queryMethod()
+    private function queryMethod($method = 'ResultSet')
     {
-        return 'ResultSet';
+        return $method;
     }
 
     public function indexAction()
@@ -68,5 +68,28 @@ class ResourceController extends ControllerBase
             ]
         );
         $this->view->pick(__DIR__ . '/../views/templates/content');
+    }
+
+    public function textField($params)
+    {
+        $params['tag'] = 'textField';
+        $params['class'] = isset($params['class']) ? $params['class'] . ' form-control' : 'form-control';
+        $params['label'] = isset($params['label']) ? $params['label'] : \Phalcon\Text::humanize($params[0]);
+        return array_push($this->formRows, $params);
+    }
+
+    public function fileField($params)
+    {
+        $params['tag'] = 'fileField';
+        $params['label'] = isset($params['label']) ? $params['label'] : \Phalcon\Text::humanize($params[0]);
+        return array_push($this->formRows, $params);
+    }
+
+    public function textArea($params)
+    {
+        $params['tag'] = 'textArea';
+        $params['class'] = isset($params['class']) ? $params['class'] . ' form-control' : 'form-control';
+        $params['label'] = isset($params['label']) ? $params['label'] : \Phalcon\Text::humanize($params[0]);
+        return array_push($this->formRows, $params);
     }
 }

@@ -26,6 +26,10 @@ class Module implements ModuleDefinitionInterface
             'Gazlab\Admin\Models' => __DIR__ . '/models/',
         ]);
 
+        $loader->registerDirs([
+            APP_PATH . '/modules/' . $di->get('dispatcher')->getModuleName() . '/controllers',
+        ]);
+
         $loader->register();
     }
 

@@ -24,5 +24,11 @@ method: 'POST'
 },
 columns: [
 {{ datas|join(',') }}
-]
+],
+drawCallback: function() {
+$('[data-toggle="popover"]').popover({
+trigger: 'focus',
+html: true
+});
+}
 });

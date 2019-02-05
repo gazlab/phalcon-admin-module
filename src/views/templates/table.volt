@@ -1,3 +1,5 @@
+{{ content() }}
+{{ flashSession.output() }}
 {% if card is defined and card is true %}
 <div class="card">
     <div class="card-header">

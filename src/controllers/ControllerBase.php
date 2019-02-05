@@ -4,19 +4,22 @@ namespace Gazlab\Admin\Controllers;
 require_once APP_PATH . '/modules/frontend/controllers/ControllerBase.php';
 
 use Gazlab\Admin\Models\Resources;
+use Phalcon\Mvc\Model\Resultset;
 
 class ControllerBase extends \Imove\Modules\Frontend\Controllers\ControllerBase
 {
+    public $resources;
+
     public function initialize()
     {
         $this->view->setTemplateBefore('private');
-        $this->view->resources = $this->getResources();
+        $this->view->resources = $this->resources;
         $this->view->resource = Resources::findFirst([
             "module_id = ?0 AND controller_name = ?1 AND active = 'Y'",
             'bind' => [
                 $this->router->getModuleName(),
                 $this->router->getControllerName(),
-            ]
+            ],
         ]);
 
         parent::initialize();
@@ -24,25 +27,57 @@ class ControllerBase extends \Imove\Modules\Frontend\Controllers\ControllerBase
 
     private function getResources($parent_id = null)
     {
-        $resources = Resources::find([
-            "active = 'Y'" . (!is_null($parent_id) ? " AND parent = {$parent_id}": " AND parent IS NULL"),
-            'order' => 'order_position',
-        ]);
+        $profiles = [];
+        foreach ($this->userProfiles as $profile) {
+            array_push($profiles, $profile->id);
+        }
+
+        $resources = $this->modelsManager->createBuilder()
+            ->columns(["r.*"])
+            ->from(['r' => 'Imove\Models\Resources'])
+            ->join('Imove\Models\Permissions', 'p.resource_id = r.id', 'p')
+            ->where("module_id = ?0 AND active = 'Y'" . (!is_null($parent_id) ? " AND parent = {$parent_id}" : " AND parent IS NULL"), [
+                $this->router->getModuleName(),
+            ])
+            ->inWhere('p.profile_id', $profiles)
+            ->orderBy('r.order_position')
+            ->groupBy('r.id')
+            ->getQuery()
+            ->execute()
+            ->setHydrateMode(Resultset::HYDRATE_ARRAYS);
 
         $allResource = [];
-        if (count($resources) === 0){
+        if (count($resources) === 0) {
             return $allResource;
         }
 
-        $resources = $resources->toArray();
-        foreach ($resources as $resource){
+        foreach ($resources as $resource) {
             $childs = $this->getResources($resource['id']);
-            if (count($childs) > 0){
+            if (count($childs) > 0) {
                 $resource['childs'] = $childs;
             }
             array_push($allResource, $resource);
         }
 
         return $allResource;
+    }
+
+    public function beforeExecuteRoute()
+    {
+        if (!$this->session->has('uId')) {
+            return $this->response->redirect('?redirect=' . $this->router->getRewriteUri());
+        }
+
+        parent::beforeExecuteRoute();
+
+        $this->resources = $this->getResources();
+
+        if ($this->router->getControllerName() === 'index') {
+            foreach ($this->resources as $resource) {
+                if (!is_null($resource['controller_name'])) {
+                    return $this->response->redirect($this->router->getModuleName() . '/' . $resource['controller_name']);
+                }
+            }
+        }
     }
 }

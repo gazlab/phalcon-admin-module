@@ -7,6 +7,7 @@ use Phalcon\Config;
 use Phalcon\DiInterface;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Loader;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Mvc\ModuleDefinitionInterface;
@@ -31,6 +32,7 @@ class Module implements ModuleDefinitionInterface
 
         $loader->registerDirs([
             APP_PATH . '/modules/' . $di['router']->getModuleName() . '/controllers',
+            APP_PATH . '/common/models',
         ]);
 
         $loader->register();
@@ -62,11 +64,11 @@ class Module implements ModuleDefinitionInterface
         /**
          * Setting up the view component
          */
-        $di['view'] = function () {
+        $di['view'] = function () use ($di) {
             $config = $this->getConfig();
 
             $view = new View();
-            $view->setViewsDir(APP_PATH . '/modules/' . $this->get('dispatcher')->getModuleName() . '/views');
+            $view->setViewsDir(APP_PATH . '/modules/' . $di['router']->getModuleName() . '/views');
 
             $view->registerEngines([
                 '.volt' => 'voltShared',
@@ -128,5 +130,14 @@ class Module implements ModuleDefinitionInterface
 
                 return $dispatcher;
             });
+
+        $di->set('flashSession', function () {
+            return new FlashSession([
+                'error' => 'alert alert-danger',
+                'success' => 'alert alert-success',
+                'notice' => 'alert alert-info',
+                'warning' => 'alert alert-warning',
+            ]);
+        });
     }
 }

@@ -1,5 +1,6 @@
 $('.select2').select2({
-    dropdownAutoWidth: true
+dropdownAutoWidth: true,
+width: 'auto'
 });
 
 ClassicEditor
@@ -11,4 +12,10 @@ toolbar: [ 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedLi
 })
 .catch(function (error) {
 console.error(error)
+});
+
+$('.date-range-picker').daterangepicker({
+locale: {
+format: 'YYYY/MM/DD'
+}
 });

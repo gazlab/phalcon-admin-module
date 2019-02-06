@@ -7,15 +7,16 @@ class ResourceController extends ControllerBase
 {
     private $columns = [];
     private $formRows = [];
+    private $queryMethod = 'ResultSet';
 
     public function getResourceName()
     {
         return str_replace('Controller', '', get_class($this));
     }
 
-    public function queryMethod($method = 'ResultSet')
+    public function setQueryMethod($method)
     {
-        return $method;
+        $this->queryMethod = $method;
     }
 
     public function queryGetAll()
@@ -34,14 +35,14 @@ class ResourceController extends ControllerBase
 
     public function indexAction()
     {
+        $this->table();
+
         if ($this->request->isAjax()) {
-            $method = $this->queryMethod();
+            $method = $this->queryMethod;
             $f = 'from' . $method;
             $dataTables = new DataTable();
             $dataTables->$f($this->queryGetAll())->sendResponse();
         }
-
-        $this->table();
 
         $this->view->setVars(
             [
@@ -129,6 +130,8 @@ class ResourceController extends ControllerBase
                 return $this->response->redirect($this->router->getModuleName() . '/' . $this->router->getControllerName() . '/update/' . $table->id);
             }
         }
+        
+        $this->tag->setDefaults($table->toArray());
 
         $this->form();
 
@@ -139,7 +142,6 @@ class ResourceController extends ControllerBase
                 ],
             ]
         );
-        $this->tag->setDefaults($table->toArray());
         $this->view->pick(__DIR__ . '/../views/templates/content');
     }
 
@@ -167,6 +169,14 @@ class ResourceController extends ControllerBase
     public function textField($params)
     {
         $params['tag'] = 'textField';
+        $params['class'] = isset($params['class']) ? $params['class'] . ' form-control' : 'form-control';
+        $params['label'] = isset($params['label']) ? $params['label'] : \Phalcon\Text::humanize($params[0]);
+        return array_push($this->formRows, $params);
+    }
+
+    public function numericField($params)
+    {
+        $params['tag'] = 'numericField';
         $params['class'] = isset($params['class']) ? $params['class'] . ' form-control' : 'form-control';
         $params['label'] = isset($params['label']) ? $params['label'] : \Phalcon\Text::humanize($params[0]);
         return array_push($this->formRows, $params);

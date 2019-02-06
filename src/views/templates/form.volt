@@ -22,8 +22,16 @@
 </div>
 {% endif %}
 
+{# Datetime Range Picker #}
+{% do assets.addCss('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css', false) %}
+{% do assets.addJs('https://cdn.jsdelivr.net/momentjs/latest/moment.min.js', false) %}
+{% do assets.addJs('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js', false) %}
+
+{# Select2 #}
 {% do assets.addCss('gazlab_assets/plugins/select2/select2.min.css') %}
 {% do assets.addJs('gazlab_assets/plugins/select2/select2.full.min.js') %}
+
+{# CKEditor #}
 {% do assets.addJs('gazlab_assets/plugins/ckeditor/ckeditor.js') %}
 
 {% do assets.addInlineJs(view.getPartial(config.application.viewsDir ~ 'templates/form.js')) %}

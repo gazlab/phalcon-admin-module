@@ -32,6 +32,6 @@
 {% do assets.addJs('gazlab_assets/plugins/select2/select2.full.min.js') %}
 
 {# CKEditor #}
-{% do assets.addJs('gazlab_assets/plugins/ckeditor/ckeditor.js') %}
+{% do assets.addJs('https://cdn.ckeditor.com/4.11.2/full/ckeditor.js', false) %}
 
 {% do assets.addInlineJs(view.getPartial(config.application.viewsDir ~ 'templates/form.js')) %}

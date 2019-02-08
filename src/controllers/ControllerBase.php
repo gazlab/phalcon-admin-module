@@ -34,8 +34,8 @@ class ControllerBase extends \Imove\Modules\Frontend\Controllers\ControllerBase
 
         $resources = $this->modelsManager->createBuilder()
             ->columns(["r.*"])
-            ->from(['r' => 'Imove\Models\Resources'])
-            ->join('Imove\Models\Permissions', 'p.resource_id = r.id', 'p')
+            ->from(['r' => 'Resources'])
+            ->join('Permissions', 'p.resource_id = r.id', 'p')
             ->where("module_id = ?0 AND active = 'Y'" . (!is_null($parent_id) ? " AND parent = {$parent_id}" : " AND parent IS NULL"), [
                 $this->router->getModuleName(),
             ])

@@ -186,6 +186,7 @@ class ResourceController extends ControllerBase
     {
         $params['tag'] = 'fileField';
         $params['label'] = isset($params['label']) ? $params['label'] : \Phalcon\Text::humanize($params[0]);
+        $params['value'] = null;
         return array_push($this->formRows, $params);
     }
 
@@ -193,6 +194,15 @@ class ResourceController extends ControllerBase
     {
         $params['tag'] = 'select';
         $params['label'] = isset($params['label']) ? $params['label'] : \Phalcon\Text::humanize($params[0]);
+        $params['class'] = isset($params['class']) ? $params['class'] . ' select2' : 'select2';
+        return array_push($this->formRows, $params);
+    }
+
+    public function selectStatic($params)
+    {
+        $params['tag'] = 'selectStatic';
+        $params['label'] = isset($params['label']) ? $params['label'] : \Phalcon\Text::humanize($params[0]);
+        $params['class'] = isset($params['class']) ? $params['class'] . ' select2' : 'select2';
         return array_push($this->formRows, $params);
     }
 

@@ -8,16 +8,16 @@
         "name": "Sony Kusyana",
         "email": "sony.kusyana@yahoo.com"
     }],
-    "minimum-stability": "stable",
+    "minimum-stability": "alpha",
     "autoload": {
         "psr-4": {
             "Gazlab\\Admin\\": "src/"
         }
     },
     "require": {
-        "almasaeed2010/adminlte": "3.0.*",
-        "phalcon/breadcrumbs": "dev-master",
-        "qrotux/phalcon-datatables": "1.3.0",
-        "phalcon/incubator": "dev-master"
+        "almasaeed2010/adminlte": "^3.0@alpha",
+        "phalcon/breadcrumbs": "^1.4",
+        "qrotux/phalcon-datatables": "^1.3",
+        "phalcon/incubator": "^3.4"
     }
 }

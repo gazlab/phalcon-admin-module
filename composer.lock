@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "263c692722fa0ef7f42e051bc6f20e45",
+    "content-hash": "4b8298e88094cd63944c1f9536cf7fb4",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -48,7 +48,7 @@
         },
         {
             "name": "phalcon/breadcrumbs",
-            "version": "dev-master",
+            "version": "v1.4.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phalcon/breadcrumbs.git",
@@ -104,77 +104,8 @@
             "time": "2018-05-24T11:02:46+00:00"
         },
         {
-            "name": "phalcon/incubator",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/phalcon/incubator.git",
-                "reference": "2ab139c977577dbcb42e0f766cb7631966abe278"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/phalcon/incubator/zipball/2ab139c977577dbcb42e0f766cb7631966abe278",
-                "reference": "2ab139c977577dbcb42e0f766cb7631966abe278",
-                "shasum": ""
-            },
-            "require": {
-                "ext-phalcon": "~3.3",
-                "php": ">=5.5"
-            },
-            "require-dev": {
-                "codeception/aerospike-module": "^1.0",
-                "codeception/codeception": "2.3.6",
-                "codeception/mockery-module": "0.2.2",
-                "codeception/specify": "^0.4",
-                "codeception/verify": "^0.3",
-                "doctrine/instantiator": "1.0.5",
-                "phalcon/dd": "^1.1",
-                "phpdocumentor/reflection-docblock": "2.0.4",
-                "phpunit/phpunit": "^4.8",
-                "squizlabs/php_codesniffer": "^2.9",
-                "vlucas/phpdotenv": "^2.4"
-            },
-            "suggest": {
-                "duncan3dc/fork-helper": "To use extended class to access the beanstalk queue service",
-                "ext-aerospike": "*",
-                "phalcon/ide-stubs": "Phalcon IDE Stubs",
-                "sergeyklay/aerospike-php-stubs": "The most complete Aerospike PHP stubs which allows autocomplete in modern IDEs",
-                "swiftmailer/swiftmailer": "~5.2",
-                "twig/twig": "~1.35|~2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Phalcon\\": "Library/Phalcon/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-3-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Phalcon Team",
-                    "email": "team@phalconphp.com",
-                    "homepage": "https://phalconphp.com/en/team"
-                },
-                {
-                    "name": "Contributors",
-                    "homepage": "https://github.com/phalcon/incubator/graphs/contributors"
-                }
-            ],
-            "description": "Adapters, prototypes or functionality that can be potentially incorporated to the C-framework.",
-            "homepage": "https://phalconphp.com",
-            "keywords": [
-                "framework",
-                "incubator",
-                "phalcon"
-            ],
-            "time": "2018-11-19T09:30:11+00:00"
-        },
-        {
             "name": "qrotux/phalcon-datatables",
-            "version": "dev-master",
+            "version": "1.3.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/qrotux/phalcon-datatables.git",
@@ -231,11 +162,9 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "dev",
+    "minimum-stability": "alpha",
     "stability-flags": {
-        "phalcon/breadcrumbs": 20,
-        "qrotux/phalcon-datatables": 20,
-        "phalcon/incubator": 20
+        "almasaeed2010/adminlte": 15
     },
     "prefer-stable": false,
     "prefer-lowest": false,

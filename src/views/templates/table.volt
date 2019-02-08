@@ -7,7 +7,7 @@
         <div class="card-tools">
             <a href="{{ url([router.getModuleName(),router.getControllerName(),'create']|join('/')) }}" class="btn btn-tool btn-sm"
                 title="Add">
-                <i class="fa fa-plus"></i>
+                <i class="fa fa-plus mr-1"></i>Add
             </a>
         </div>
     </div>

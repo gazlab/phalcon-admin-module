@@ -52,24 +52,25 @@
                     <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                     {%- macro render_menus(resources) %}
-                        {%- for resource in resources %}
-                        <li class="nav-item {{ resource['childs'] is defined ? 'has-treeview' : null }}">
-                                <a href="{{ resource['childs'] is defined ? '#' : url(router.getModuleName() ~ '/' ~ resource['controller_name']) }}" class="nav-link">
-                                    <i class="{{ resource['icon'] }} nav-icon"></i>
-                                    <p>
-                                    {{ resource['name'] }}
-                                    {%- if resource['childs'] is defined %}
-                                    <i class="right fa fa-angle-left"></i>
-                                    {%- endif %}
-                                    </p>
-                                </a>
+                    {%- for resource in resources %}
+                    <li class="nav-item {{ resource['childs'] is defined ? 'has-treeview' : null }}">
+                        <a href="{{ resource['childs'] is defined ? '#' : url(router.getModuleName() ~ '/' ~ resource['controller_name']) }}"
+                            class="nav-link">
+                            <i class="{{ resource['icon'] }} nav-icon"></i>
+                            <p>
+                                {{ resource['name'] }}
                                 {%- if resource['childs'] is defined %}
-                                <ul class="nav nav-treeview">
-                                    {{ render_menus(resource['childs']) }}
-                                </ul>        
+                                <i class="right fa fa-angle-left"></i>
                                 {%- endif %}
-                            </li>
-                        {%- endfor %}
+                            </p>
+                        </a>
+                        {%- if resource['childs'] is defined %}
+                        <ul class="nav nav-treeview">
+                            {{ render_menus(resource['childs']) }}
+                        </ul>
+                        {%- endif %}
+                    </li>
+                    {%- endfor %}
                     {%- endmacro %}
                     {{ render_menus(resources) }}
                 </ul>
@@ -107,10 +108,6 @@
     <!-- /.content-wrapper -->
 
     <footer class="main-footer">
-        <div class="float-right d-none d-sm-block">
-            <b>Version</b> 3.0.0-alpha
-        </div>
-        <strong>Copyright &copy; 2014-2018 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
-        reserved.
+        {{ config.imove.footer }}
     </footer>
 </div>

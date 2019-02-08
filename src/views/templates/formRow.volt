@@ -3,7 +3,8 @@
     <div class="col-sm-10">
         {% set field = element['tag'] %}
         {% if field is 'fileField' and hasValue(element[0]) %}
-        {% set files = getValue(element[0])|json_decode(true) %}
+        {% set files = getValue(element[0]) %}
+        {% if files is not null %}
         <div class="row pb-2">
             {% for file in files %}
             <div class="col-md-4">
@@ -12,6 +13,9 @@
             {% endfor %}
         </div>
         {% endif %}
+        {% endif %}
         <?= $this->tag->$field($element) ?>
+        {{ element['help'] is defined ? '<small id="'~element[0]~'Help" class="form-text text-muted">'~element['help']~'</small>'
+        : null }}
     </div>
 </div>

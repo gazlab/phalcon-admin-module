@@ -14,13 +14,23 @@ class ControllerBase extends \Imove\Modules\Frontend\Controllers\ControllerBase
     {
         $this->view->setTemplateBefore('private');
         $this->view->resources = $this->resources;
-        $this->view->resource = Resources::findFirst([
+        $resource = Resources::findFirst([
             "module_id = ?0 AND controller_name = ?1 AND active = 'Y'",
             'bind' => [
                 $this->router->getModuleName(),
                 $this->router->getControllerName(),
             ],
         ]);
+        $this->view->resource = $resource;
+
+        // Breadcrums
+        $this->breadcrumbs->add('Home', $this->url->get($this->router->getModuleName()));
+        if ($this->router->getControllerName() !== 'index') {
+            $this->breadcrumbs->add($resource->name, $this->url->get($this->router->getModuleName() . '/' . $resource->controller_name));
+        }
+        if ($this->router->getActionName() !== 'index') {
+            $this->breadcrumbs->add(ucwords(\Phalcon\Text::humanize($this->router->getActionName())), '#');
+        }
 
         parent::initialize();
     }

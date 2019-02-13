@@ -3,6 +3,7 @@
 namespace Gazlab\Admin;
 
 use Phalcon\Avatar\Gravatar;
+use Phalcon\Breadcrumbs;
 use Phalcon\Config;
 use Phalcon\DiInterface;
 use Phalcon\Events\Event;
@@ -138,6 +139,19 @@ class Module implements ModuleDefinitionInterface
                 'notice' => 'alert alert-info',
                 'warning' => 'alert alert-warning',
             ]);
+        });
+
+        $di->setShared('breadcrumbs', function () {
+            $breadcrumbs = new Breadcrumbs;
+            $breadcrumbs->setLastNotLinked(true);
+            $breadcrumbs->setSeparator('&nbsp;&raquo;&nbsp;');
+            $breadcrumbs->setTemplate(
+                '<li><a href="{{link}}">{{icon}}{{label}}</a></li>', // linked
+                '<li class="active">{{icon}}{{label}}</li>', // not linked
+                '' // first icon
+            );
+
+            return $breadcrumbs;
         });
     }
 }

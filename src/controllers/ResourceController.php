@@ -174,6 +174,14 @@ class ResourceController extends ControllerBase
         return array_push($this->formRows, $params);
     }
 
+    public function passwordField($params)
+    {
+        $params['tag'] = 'passwordField';
+        $params['class'] = isset($params['class']) ? $params['class'] . ' form-control' : 'form-control';
+        $params['label'] = isset($params['label']) ? $params['label'] : \Phalcon\Text::humanize($params[0]);
+        return array_push($this->formRows, $params);
+    }
+
     public function numericField($params)
     {
         $params['tag'] = 'numericField';

@@ -6,11 +6,33 @@
         {% set files = getValue(element[0]) %}
         {% if files is not null %}
         <div class="row pb-2">
+            <?php if (is_array($files)) { ?>
             {% for file in files %}
             <div class="col-md-4">
+                <?php $mimeType = mime_content_type(BASE_PATH . '/public/' . $file); ?>
+                <?php if (strpos($mimeType, 'image/') !== false) { ?>
                 {{ image(file, 'class': 'img-fluid img-thumbnail') }}
+                <?php } elseif (strpos($mimeType, 'video/') !== false) { ?>
+                <video class="w-100" controls>
+                    <source src="{{ url(file) }}" type="{{ mimeType }}">
+                    Your browser does not support the video tag.
+                </video>
+                <?php } ?>
             </div>
             {% endfor %}
+            <?php } else { ?>
+            <div class="col">
+                <?php $mimeType = mime_content_type(BASE_PATH . '/public/' . $files); ?>
+                <?php if (strpos($mimeType, 'image/') !== false) { ?>
+                {{ image(files, 'class': 'img-fluid img-thumbnail') }}
+                <?php } elseif (strpos($mimeType, 'video/') !== false) { ?>
+                <video class="w-100" controls>
+                    <source src="{{ url(files) }}" type="{{ mimeType }}">
+                    Your browser does not support the video tag.
+                </video>
+                <?php } ?>
+            </div>
+            <?php } ?>
         </div>
         {% endif %}
         {% endif %}

@@ -28,7 +28,8 @@ columns: [
 drawCallback: function() {
 $('[data-toggle="popover"]').popover({
 trigger: 'focus',
-html: true
+html: true,
+delay: 100
 });
 }
 });

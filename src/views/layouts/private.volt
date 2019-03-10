@@ -18,6 +18,9 @@
                     <i class="fa fa-user"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
+                    <a href="{{ url('session/profile') }}" class="dropdown-item">
+                        Profile
+                    </a>
                     <a href="{{ url('session/signOut') }}" class="dropdown-item">
                         Sign Out
                     </a>

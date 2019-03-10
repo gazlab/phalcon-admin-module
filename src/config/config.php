@@ -24,5 +24,8 @@ return [
         'users' => [
             'index', 'create', 'update', 'delete',
         ],
+        'session' => [
+            'profile',
+        ],
     ],
 ];

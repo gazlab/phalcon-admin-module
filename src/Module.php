@@ -9,6 +9,7 @@ use Phalcon\Config;
 use Phalcon\DiInterface;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager as EventsManager;
+use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Loader;
 use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Mvc\ModuleDefinitionInterface;
@@ -175,6 +176,15 @@ class Module implements ModuleDefinitionInterface
             $breadcrumbs->setLastNotLinked(true);
 
             return $breadcrumbs;
+        });
+
+        $di->set('flashSession', function () {
+            return new FlashSession([
+                'error' => 'alert alert-danger',
+                'success' => 'alert alert-success',
+                'notice' => 'alert alert-info',
+                'warning' => 'alert alert-warning',
+            ]);
         });
     }
 }

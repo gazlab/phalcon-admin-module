@@ -1,12 +1,19 @@
+{{ flashSession.output() }}
 {% if box is defined and box is true %}
 <div class="box">
     <div class="box-header">
         <h3 class="box-title">List Data</h3>
+        <div class="box-tools">
+            {% if acl.isAllowed(userSession.profile.name, router.getControllerName(), 'create') %}
+            <a href="{{ url([router.getModuleName(), router.getControllerName(), 'create']|join('/')) }}" class="btn btn-box-tool"><i
+                    class="fa fa-plus"></i></a>
+            {% endif %}
+        </div>
     </div>
     <!-- /.box-header -->
     <div class="box-body">
         {% endif %}
-        <table id="example1" class="table table-bordered table-striped">
+        <table id="list_data" class="table table-bordered table-striped">
             <thead>
                 <tr>
                     {% for column in columns %}
@@ -20,3 +27,5 @@
     <!-- /.box-body -->
 </div>
 {% endif %}
+
+{% do assets.addInlineJs(view.getPartial(config.application.viewsDir~'/contents/table.js')) %}

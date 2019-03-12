@@ -1,3 +1,5 @@
+{% do assets.addCss('gazlab_assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') %}
+
 {% do assets.addCss('gazlab_assets/dist/css/skins/_all-skins.min.css') %}
 {% do assets.addCss('gazlab_assets/plugins/pace/pace.min.css') %}
 
@@ -99,17 +101,21 @@
         </div>
         <!-- /.content-wrapper -->
 
-        <footer class="main-footer">
+        <footer class="main-footer text-sm">
             <div class="pull-right hidden-xs">
-                <b>Version</b> 2.4.0
+                <b>Version</b> 1.0
             </div>
-            <strong>Copyright &copy; 2014-2016 <a href="https://adminlte.io">Almsaeed Studio</a>.</strong> All rights
+            <strong>Copyright &copy; 2019 <a href="#">Nanosoft</a>.</strong> All rights
             reserved.
         </footer>
     </div>
     <!-- ./wrapper -->
 
     {% do assets.addJs('gazlab_assets/bower_components/PACE/pace.min.js') %}
+
+    {% do assets.addJs('gazlab_assets/bower_components/datatables.net/js/jquery.dataTables.min.js') %}
+    {% do assets.addJs('gazlab_assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') %}
+
     {% do assets.addJs('gazlab_assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') %}
     {% do assets.addJs('gazlab_assets/bower_components/fastclick/lib/fastclick.js') %}
     {% do assets.addJs('gazlab_assets/dist/js/adminlte.min.js') %}

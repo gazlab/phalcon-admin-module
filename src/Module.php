@@ -62,6 +62,17 @@ class Module implements ModuleDefinitionInterface
             } else {
                 $config = $override;
             }
+
+            $gazlabConfig = APP_PATH . '/modules/' . $di['router']->getModuleName() . '/config/gazlab.php';
+            if (file_exists($gazlabConfig)) {
+            $override = new Config(include $gazlabConfig);
+
+            if ($config instanceof Config) {
+                $config->merge($override);
+            } else {
+                $config = $override;
+            }
+        }
         }
 
         /**

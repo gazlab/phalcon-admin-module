@@ -65,6 +65,12 @@ class ResourceController extends ControllerBase
         $this->view->partial($this->config->application->viewsDir . 'contents/table', ['columns' => $this->columns, 'box' => true]);
     }
 
+    public $formAttributes = [];
+    public function setFormAttributes($attributes = [])
+    {
+        $this->formAttributes = $attributes;
+    }
+
     // CREATE
     public $formFields = [];
     public function textField($params)
@@ -96,6 +102,9 @@ class ResourceController extends ControllerBase
         $element = new \Phalcon\Forms\Element\File($params[0]);
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
         $element->setLabel($label);
+        if (isset($params['showFiles'])){
+            $element->setUserOption('showFiles', $params['showFiles']);
+        }
         // $element->setAttributes(['class' => 'form-control']);
         array_push($this->formFields, $element);
     }
@@ -139,16 +148,24 @@ class ResourceController extends ControllerBase
             }
         }
 
-        $this->form();
         $formFields = new Form();
+        $this->form();
 
         foreach ($this->formFields as $field) {
             $formFields->add($field);
         }
-        $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'New', 'formFields' => $formFields, 'box' => true]);
+        $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'New', 'formFields' => $formFields, 'box' => true, 'attrs'=>$this->formAttributes]);
+    }
+    public function isCreateAction()
+    {
+        return $this->router->getActionName() === 'create';
     }
 
     // UPDATE
+    public function isUpdateAction()
+    {
+        return $this->router->getActionName() === 'update';
+    }
     public function queryGetOne()
     {
         $modelName = ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName()));
@@ -168,13 +185,13 @@ class ResourceController extends ControllerBase
             }
         }
 
-        $this->form();
         $formFields = new Form($model);
-
+        $this->form();
+        
         foreach ($this->formFields as $field) {
             $formFields->add($field);
         }
-        $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'Edit', 'formFields' => $formFields, 'box' => true]);
+        $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'Edit', 'formFields' => $formFields, 'box' => true, 'attrs'=>$this->formAttributes]);
     }
 
     // DELETE

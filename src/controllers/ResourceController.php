@@ -85,8 +85,10 @@ class ResourceController extends ControllerBase
     {
         $element = new \Phalcon\Forms\Element\Textarea($params[0]);
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
+        unset($params['label']);
+        $params['class'] = isset($params['class']) ? $params['class']. ' form-control' : 'form-control';
         $element->setLabel($label);
-        $element->setAttributes(['class' => 'form-control']);
+        $element->setAttributes($params);
         array_push($this->formFields, $element);
     }
     public function passwordField($params)

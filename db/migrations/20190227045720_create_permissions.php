@@ -31,7 +31,7 @@ class CreatePermissions extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('permissions');
+        $table = $this->table('permissions', ['engine' => 'MyISAM']);
         $table->addColumn('profile_id', 'integer')
             ->addColumn('resource', 'string')
             ->addColumn('action', 'string')

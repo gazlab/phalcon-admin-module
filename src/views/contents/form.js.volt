@@ -1,0 +1,1 @@
+CKEDITOR.replaceClass = 'ckeditor';

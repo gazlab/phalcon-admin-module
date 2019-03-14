@@ -118,7 +118,8 @@ class ResourceController extends ControllerBase
         $value = $params['using'][1];
         $options = [];
         foreach ($params[1] as $option){
-            $options[$option->$key] = $option->$value;
+            $option = (array) $option;
+            $options[$option[$key]] = $option[$value];
         }
         $element->setOptions($options);
         // $element->setAttributes(['class' => 'form-control']);

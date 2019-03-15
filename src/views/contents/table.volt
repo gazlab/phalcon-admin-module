@@ -13,7 +13,7 @@
     <!-- /.box-header -->
     <div class="box-body">
         {% endif %}
-        <table id="list_data" class="table table-bordered table-striped">
+        <table id="list_data" class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
                     {% for column in columns %}

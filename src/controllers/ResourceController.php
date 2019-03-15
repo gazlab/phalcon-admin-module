@@ -81,6 +81,14 @@ class ResourceController extends ControllerBase
         $element->setAttributes(['class' => 'form-control']);
         array_push($this->formFields, $element);
     }
+    public function dateField($params)
+    {
+        $element = new \Phalcon\Forms\Element\Date($params[0]);
+        $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
+        $element->setLabel($label);
+        // $element->setAttributes(['class' => 'form-control']);
+        array_push($this->formFields, $element);
+    }
     public function textArea($params)
     {
         $element = new \Phalcon\Forms\Element\Textarea($params[0]);
@@ -116,14 +124,20 @@ class ResourceController extends ControllerBase
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
         $element->setLabel($label);
         
+        if (isset($params['useEmpty']) && $params['useEmpty'] === true){
+            $emptyValue = isset($params['emptyValue']) ? $params['emptyValue'] : '';
+            $emptyText = isset($params['emptyText']) ? $params['emptyText'] : 'Choose...';
+            $element->addOption([$emptyValue => $emptyText]);
+        }
+
         $key = $params['using'][0];
         $value = $params['using'][1];
         $options = [];
         foreach ($params[1] as $option){
             $option = (array) $option;
-            $options[$option[$key]] = $option[$value];
+            $element->addOption([$option[$key] => $option[$value]]);
         }
-        $element->setOptions($options);
+        
         // $element->setAttributes(['class' => 'form-control']);
         array_push($this->formFields, $element);
     }

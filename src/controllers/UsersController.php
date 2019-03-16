@@ -14,21 +14,24 @@ class UsersController extends ResourceController
     {
         if ($this->request->isPost()) {
             $oldPassword = $this->request->getPost('old_password');
-            if (!$this->security->checkHash($oldPassword, $this->userSession->password)) {
-                $this->flash->error('Old Password is wrong.');
-                goto form;
-            }
-
             $newPassword = $this->request->getPost('new_password');
-            $confirmPassword = $this->request->getPost('confirm_password');
-            if ($newPassword !== $confirmPassword) {
-                $this->flash->error('New and Confirmation Password doesn\'t match.');
-                goto form;
-            }
+            if (!empty($oldPassword) && !empty($newPassword)) {
+                if (!$this->security->checkHash($oldPassword, $this->userSession->password)) {
+                    $this->flash->error('Old Password is wrong.');
+                    goto form;
+                }
 
-            if (!$this->userSession->save([
-                'password' => $this->security->hash($confirmPassword),
-            ])) {
+                $confirmPassword = $this->request->getPost('confirm_password');
+                if ($newPassword !== $confirmPassword) {
+                    $this->flash->error('New and Confirmation Password doesn\'t match.');
+                    goto form;
+                }
+
+                $this->userSession->password = $this->security->hash($confirmPassword);
+            }
+            $this->userSession->username = $this->request->getPost('username');
+
+            if (!$this->userSession->save()) {
                 foreach ($this->userSession->getMessages() as $message) {
                     $this->flash->error($message);
                 }

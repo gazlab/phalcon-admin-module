@@ -187,7 +187,7 @@ class Acl extends Component
             }
 
             // Always grant these permissions
-            // $acl->allow($profile->name, 'index', 'index');
+            $acl->allow($profile->name, 'users', 'profile');
             // $acl->allow($profile->name, 'session', 'signOut');
         }
 

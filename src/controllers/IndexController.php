@@ -12,13 +12,15 @@ class IndexController extends ControllerBase
             // ]);
             $i = 0;
             foreach ($this->resources as $index => $resource) {
-                if ($i === 0) {
-                    if (is_int($index)) {
-                        $resource = $resource;
-                    } else {
-                        $resource = $resource[0];
+                if (!isset($resource->menu['type'])) {
+                    if ($i === 0) {
+                        if (is_int($index)) {
+                            $resource = $resource;
+                        } else {
+                            $resource = $resource[0];
+                        }
+                        break;
                     }
-                    break;
                 }
             }
 

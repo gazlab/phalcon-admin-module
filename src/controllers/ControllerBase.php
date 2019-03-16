@@ -91,6 +91,11 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     {
         $resources = [];
 
+        array_push($resources, new UsersController());
+        if ($this->router->getControllerName() === $resources[0]->menu[0]) {
+            $this->resource = $resources[0];
+        }
+
         $permissions = \Gazlab\Admin\Models\Permissions::find([
             "profile_id = ?0",
             'bind' => [

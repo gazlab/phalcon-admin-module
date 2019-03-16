@@ -35,8 +35,8 @@
                                 <span class="hidden-xs">{{ userSession.username }}</span>
                             </a>
                             <ul class="dropdown-menu" role="menu" style="width: auto;">
-                                <!-- <li><a href="#">Profile</a></li>
-                                <li class="divider"></li> -->
+                                <li><a href="{{ url(router.getModuleName()~'/users/profile') }}">Profile</a></li>
+                                <li class="divider"></li>
                                 <li><a href="{{ url(router.getModuleName()~'/session/signOut') }}">Sign Out</a></li>
                             </ul>
                         </li>
@@ -54,6 +54,7 @@
                 <!-- sidebar menu: : style can be found in sidebar.less -->
                 <ul class="sidebar-menu" data-widget="tree">
                     {% for group, resource in resources %}
+                    {% if resource.menu['type'] is not defined %}
                     <?php if (!is_int($group)) { ?>
                     <li class="header">{{ group|upper }}</li>
                     {% for child in resource %}
@@ -70,6 +71,7 @@
                         </a>
                     </li>
                     <?php } ?>
+                    {% endif %}
                     {% endfor %}
                 </ul>
             </section>

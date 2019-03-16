@@ -25,6 +25,7 @@ return [
             'create',
             'update',
             'delete',
+            'profile',
         ],
         'permissions' => [
             'index',

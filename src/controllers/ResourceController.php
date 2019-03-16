@@ -155,13 +155,21 @@ class ResourceController extends ControllerBase
         if ($this->request->isPost()) {
             $modelName = ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName()));
             $model = new $modelName();
-            if (!$model->save($this->params())) {
+            foreach ($this->params() as $field => $value){
+                $model->$field = $value;
+            }
+            if (!$model->save()) {
                 foreach ($model->getMessages() as $message) {
                     $this->flash->error($message);
                 }
             } else {
                 $this->flashSession->success('Data has been saved');
-                return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update', $model->id]));
+
+                if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')){
+                    return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update', $model->id]));
+                } else {
+                    return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName()]));
+                }
             }
         }
 
@@ -192,7 +200,10 @@ class ResourceController extends ControllerBase
     {
         $model = $this->queryGetOne();
         if ($this->request->isPost()) {
-            if (!$model->save($this->params())) {
+            foreach ($this->params() as $field => $value){
+                $model->$field = $value;
+            }
+            if (!$model->save()) {
                 foreach ($model->getMessages() as $message) {
                     $this->flash->error($message);
                 }

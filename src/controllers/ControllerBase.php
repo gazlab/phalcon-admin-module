@@ -42,11 +42,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             // If there is no identity available the user is redirected to index/index
             if (!is_object($identity)) {
                 $this->flash->notice('You don\'t have access to this module: private');
-                $dispatcher->forward([
-                    'namespace' => 'Gazlab\Admin\Controllers',
-                    'controller' => 'index',
-                    'action' => 'index',
-                ]);
+                $this->response->redirect($this->router->getModuleName());
                 return false;
             }
             // Check if the user have permission to the current option

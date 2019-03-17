@@ -35,9 +35,10 @@
                                 <span class="hidden-xs">{{ userSession.username }}</span>
                             </a>
                             <ul class="dropdown-menu" role="menu" style="width: auto;">
-                                <li><a href="{{ url(router.getModuleName()~'/users/profile') }}">Profile</a></li>
+                                <li><a href="{{ url(router.getModuleName()~'/users/profile') }}" style="color: inherit;">Profile</a></li>
                                 <li class="divider"></li>
-                                <li><a href="{{ url(router.getModuleName()~'/session/signOut') }}">Sign Out</a></li>
+                                <li><a href="{{ url(router.getModuleName()~'/session/signOut') }}" style="color: inherit;">Sign
+                                        Out</a></li>
                             </ul>
                         </li>
                     </ul>

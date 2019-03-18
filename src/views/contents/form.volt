@@ -3,6 +3,13 @@
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">{{ title }}</h3>
+        <div class="box-tools">
+            {% if acl.isAllowed(userSession.profile.name, router.getControllerName(), 'create') and
+            router.getActionName() is 'update' %}
+            <a title="Add New" href="{{ url([router.getModuleName(), router.getControllerName(), 'create']|join('/')) }}"
+                class="btn btn-box-tool"><i class="fa fa-plus"></i></a>
+            {% endif %}
+        </div>
     </div>
 
     {% set attrs[0] = router.getRewriteUri() %}

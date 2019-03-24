@@ -11,8 +11,11 @@
   {{ stylesheet_link('gazlab_assets/bower_components/bootstrap/dist/css/bootstrap.min.css') }}
   {{ stylesheet_link('gazlab_assets/bower_components/font-awesome/css/font-awesome.min.css') }}
   {{ stylesheet_link('gazlab_assets/bower_components/Ionicons/css/ionicons.min.css') }}
-  {{ stylesheet_link('gazlab_assets/dist/css/AdminLTE.min.css') }}
   {{ assets.outputCss() }}
+  {{ stylesheet_link('gazlab_assets/dist/css/AdminLTE.min.css') }}
+  {{ stylesheet_link('gazlab_assets/dist/css/skins/_all-skins.min.css') }}
+  {{ stylesheet_link('gazlab_assets/plugins/pace/pace.min.css') }}
+
   {{ assets.outputInlineCss() }}
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -23,13 +26,17 @@
   <![endif]-->
 
   <!-- Google Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
 </head>
 {{ content() }}
 
 {{ javascript_include('gazlab_assets/bower_components/jquery/dist/jquery.min.js') }}
 {{ javascript_include('gazlab_assets/bower_components/bootstrap/dist/js/bootstrap.min.js') }}
+{{ javascript_include('gazlab_assets/bower_components/PACE/pace.min.js') }}
 {{ assets.outputJs() }}
+{{ javascript_include('gazlab_assets/dist/js/adminlte.min.js') }}
+{% do assets.addInlineJs(view.getPartial(config.application.viewsDir~'index.js')) %}
 {{ assets.outputInlineJs() }}
 </body>
 

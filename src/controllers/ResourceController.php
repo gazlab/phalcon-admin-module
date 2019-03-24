@@ -138,7 +138,7 @@ class ResourceController extends ControllerBase
             $element->addOption([$option[$key] => $option[$value]]);
         }
         
-        // $element->setAttributes(['class' => 'form-control']);
+        $element->setAttributes(['class' => 'select2']);
         array_push($this->formFields, $element);
     }
     public function selectStatic($params)
@@ -147,7 +147,7 @@ class ResourceController extends ControllerBase
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
         $element->setLabel($label);
         $element->setOptions($params[1]);
-        // $element->setAttributes(['class' => 'form-control']);
+        $element->setAttributes(['class' => 'select2']);
         array_push($this->formFields, $element);
     }
     public function createAction()

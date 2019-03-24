@@ -1,7 +1,6 @@
 {% do assets.addCss('gazlab_assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') %}
 
-{% do assets.addCss('gazlab_assets/dist/css/skins/_all-skins.min.css') %}
-{% do assets.addCss('gazlab_assets/plugins/pace/pace.min.css') %}
+{% do assets.addCss('gazlab_assets/bower_components/select2/dist/css/select2.min.css') %}
 
 <body class="hold-transition skin-purple sidebar-mini">
     <!-- Site wrapper -->
@@ -35,9 +34,11 @@
                                 <span class="hidden-xs">{{ userSession.username }}</span>
                             </a>
                             <ul class="dropdown-menu" role="menu" style="width: auto;">
-                                <li><a href="{{ url(router.getModuleName()~'/users/profile') }}" style="color: inherit;">Profile</a></li>
+                                <li><a href="{{ url(router.getModuleName()~'/users/profile') }}"
+                                        style="color: inherit;">Profile</a></li>
                                 <li class="divider"></li>
-                                <li><a href="{{ url(router.getModuleName()~'/session/signOut') }}" style="color: inherit;">Sign
+                                <li><a href="{{ url(router.getModuleName()~'/session/signOut') }}"
+                                        style="color: inherit;">Sign
                                         Out</a></li>
                             </ul>
                         </li>
@@ -68,7 +69,8 @@
                     <?php }else{ ?>
                     <li>
                         <a href="{{ url(router.getModuleName()~'/'~resource.menu[0]) }}">
-                            <i class="{{ resource.menu['icon'] }}"></i> <span>{{ resource.menu['name']|capitalize }}</span>
+                            <i class="{{ resource.menu['icon'] }}"></i>
+                            <span>{{ resource.menu['name']|capitalize }}</span>
                         </a>
                     </li>
                     <?php } ?>
@@ -114,12 +116,12 @@
     </div>
     <!-- ./wrapper -->
 
-    {% do assets.addJs('gazlab_assets/bower_components/PACE/pace.min.js') %}
-
     {% do assets.addJs('gazlab_assets/bower_components/datatables.net/js/jquery.dataTables.min.js') %}
     {% do assets.addJs('gazlab_assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') %}
 
+    {% do assets.addJs('gazlab_assets/bower_components/select2/dist/js/select2.full.min.js') %}
+
     {% do assets.addJs('gazlab_assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') %}
     {% do assets.addJs('gazlab_assets/bower_components/fastclick/lib/fastclick.js') %}
-    {% do assets.addJs('gazlab_assets/dist/js/adminlte.min.js') %}
+
     {% do assets.addInlineJs(view.getPartial(view.getLayoutsDir()~'/private.js')) %}

@@ -12,6 +12,7 @@ return [
             'lg' => '<b>Gazlab</b>Admin',
             'sm' => '<b>GZ</b>A',
         ],
+        'footer' => '<strong>Copyright &copy; 2019 <a href="#">Gazlab</a>.</strong> All rights reserved.',
     ],
     'privateResources' => [
         'profiles' => [

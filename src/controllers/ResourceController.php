@@ -26,9 +26,9 @@ class ResourceController extends ControllerBase
             $actions[] = '<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update'])) . '/\'+row.DT_RowId+\'" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-edit"></i></a>';
         }
         if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'delete')) {
-            $contents[] = $this->escaper->escapeHtml('<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'delete']))) . '/\'+row.DT_RowId+\''.$this->escaper->escapeHtml('" class="btn btn-danger">Yes</a>');
+            $contents[] = $this->escaper->escapeHtml('<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'delete']))) . '/\'+row.DT_RowId+\'' . $this->escaper->escapeHtml('" class="btn btn-danger">Yes</a>');
             $contents[] = $this->escaper->escapeHtml('<a href="#" class="btn btn-default">No</a>');
-            $actions[] = '<a tabindex="0" data-trigger="focus" title="Are you sure?" class="btn btn-xs btn-danger" data-toggle="popover" data-content="'.join(' ', $contents).'"><i class="fa fa-trash"></i></a>';
+            $actions[] = '<a tabindex="0" data-trigger="focus" title="Are you sure?" class="btn btn-xs btn-danger" data-toggle="popover" data-content="' . join(' ', $contents) . '"><i class="fa fa-trash"></i></a>';
         }
 
         $params['render'] = 'function( data, type, row, meta ){return \'' . join(' ', $actions) . '\'}';
@@ -94,7 +94,7 @@ class ResourceController extends ControllerBase
         $element = new \Phalcon\Forms\Element\Textarea($params[0]);
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
         unset($params['label']);
-        $params['class'] = isset($params['class']) ? $params['class']. ' form-control' : 'form-control';
+        $params['class'] = isset($params['class']) ? $params['class'] . ' form-control' : 'form-control';
         $element->setLabel($label);
         $element->setAttributes($params);
         array_push($this->formFields, $element);
@@ -112,7 +112,7 @@ class ResourceController extends ControllerBase
         $element = new \Phalcon\Forms\Element\File($params[0]);
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
         $element->setLabel($label);
-        if (isset($params['showFiles'])){
+        if (isset($params['showFiles'])) {
             $element->setUserOption('showFiles', $params['showFiles']);
         }
         // $element->setAttributes(['class' => 'form-control']);
@@ -123,8 +123,8 @@ class ResourceController extends ControllerBase
         $element = new \Phalcon\Forms\Element\Select($params[0]);
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
         $element->setLabel($label);
-        
-        if (isset($params['useEmpty']) && $params['useEmpty'] === true){
+
+        if (isset($params['useEmpty']) && $params['useEmpty'] === true) {
             $emptyValue = isset($params['emptyValue']) ? $params['emptyValue'] : '';
             $emptyText = isset($params['emptyText']) ? $params['emptyText'] : 'Choose...';
             $element->addOption([$emptyValue => $emptyText]);
@@ -133,11 +133,11 @@ class ResourceController extends ControllerBase
         $key = $params['using'][0];
         $value = $params['using'][1];
         $options = [];
-        foreach ($params[1] as $option){
+        foreach ($params[1] as $option) {
             $option = (array) $option;
             $element->addOption([$option[$key] => $option[$value]]);
         }
-        
+
         $element->setAttributes(['class' => 'select2']);
         array_push($this->formFields, $element);
     }
@@ -155,7 +155,7 @@ class ResourceController extends ControllerBase
         if ($this->request->isPost()) {
             $modelName = ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName()));
             $model = new $modelName();
-            foreach ($this->params() as $field => $value){
+            foreach ($this->params() as $field => $value) {
                 $model->$field = $value;
             }
             if (!$model->save()) {
@@ -165,7 +165,7 @@ class ResourceController extends ControllerBase
             } else {
                 $this->flashSession->success('Data has been saved');
 
-                if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')){
+                if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')) {
                     return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update', $model->id]));
                 } else {
                     return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName()]));
@@ -176,10 +176,12 @@ class ResourceController extends ControllerBase
         $formFields = new Form();
         $this->form();
 
-        foreach ($this->formFields as $field) {
-            $formFields->add($field);
+        if (count($this->formFields) > 0) {
+            foreach ($this->formFields as $field) {
+                $formFields->add($field);
+            }
+            $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'New', 'formFields' => $formFields, 'box' => true, 'attrs' => $this->formAttributes]);
         }
-        $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'New', 'formFields' => $formFields, 'box' => true, 'attrs'=>$this->formAttributes]);
     }
     public function isCreateAction()
     {
@@ -200,7 +202,7 @@ class ResourceController extends ControllerBase
     {
         $model = $this->queryGetOne();
         if ($this->request->isPost()) {
-            foreach ($this->params() as $field => $value){
+            foreach ($this->params() as $field => $value) {
                 $model->$field = $value;
             }
             if (!$model->save()) {
@@ -215,22 +217,22 @@ class ResourceController extends ControllerBase
 
         $formFields = new Form($model);
         $this->form();
-        
+
         foreach ($this->formFields as $field) {
             $formFields->add($field);
         }
-        $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'Edit', 'formFields' => $formFields, 'box' => true, 'attrs'=>$this->formAttributes]);
+        $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'Edit', 'formFields' => $formFields, 'box' => true, 'attrs' => $this->formAttributes]);
     }
 
     // DELETE
     public function deleteAction()
     {
         $model = $this->queryGetOne();
-        if (!$model->delete()){
+        if (!$model->delete()) {
             foreach ($model->getMessages() as $message) {
                 $this->flashSession->error($message);
             }
-        }else {
+        } else {
             $this->flashSession->warning('Data has been deleted');
         }
         return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName()]));

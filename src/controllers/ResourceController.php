@@ -22,6 +22,7 @@ class ResourceController extends ControllerBase
     }
     public function actions($extras = [])
     {
+        $actions = [];
         if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')) {
             $actions[] = '<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update'])) . '/\'+row.DT_RowId+\'" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-edit"></i></a>';
         }

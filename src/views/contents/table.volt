@@ -5,13 +5,14 @@
         <h3 class="box-title">List Data</h3>
         <div class="box-tools">
             {% if acl.isAllowed(userSession.profile.name, router.getControllerName(), 'create') %}
-            <a title="Add New" href="{{ url([router.getModuleName(), router.getControllerName(), 'create']|join('/')) }}"
+            <a title="Add New"
+                href="{{ url([router.getModuleName(), router.getControllerName(), 'create']|join('/')) }}"
                 class="btn btn-box-tool"><i class="fa fa-plus"></i></a>
             {% endif %}
         </div>
     </div>
     <!-- /.box-header -->
-    <div class="box-body">
+    <div class="box-body table-responsive">
         {% endif %}
         <table id="list_data" class="table table-bordered table-striped table-hover">
             <thead>

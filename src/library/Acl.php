@@ -219,7 +219,9 @@ class Acl extends Component
     {
         if (!isset($this->filePath)) {
             $dir = rtrim($this->config->application->cacheDir, '\\/') . '/acl';
-            @mkdir($dir);
+            if (!is_dir($dir)){
+                mkdir($dir);
+            }
             $this->filePath = $dir . '/data.txt';
         }
 

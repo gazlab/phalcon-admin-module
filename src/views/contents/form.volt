@@ -6,7 +6,8 @@
         <div class="box-tools">
             {% if acl.isAllowed(userSession.profile.name, router.getControllerName(), 'create') and
             router.getActionName() is 'update' %}
-            <a title="Add New" href="{{ url([router.getModuleName(), router.getControllerName(), 'create']|join('/')) }}"
+            <a title="Add New"
+                href="{{ url([router.getModuleName(), router.getControllerName(), 'create']|join('/')) }}"
                 class="btn btn-box-tool"><i class="fa fa-plus"></i></a>
             {% endif %}
         </div>
@@ -39,7 +40,7 @@
         {% if box is defined and box is true %}
     </div>
     <div class="box-footer">
-        {{ submit_button('Save', 'class':'btn btn-success pull-right') }}
+        {{ submit_button('Save', 'class':'btn btn-success pull-right', 'data-loading-text': 'Loading...') }}
     </div>
     </form>
 </div>

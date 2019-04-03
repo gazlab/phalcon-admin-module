@@ -106,7 +106,21 @@ class Module implements ModuleDefinitionInterface
             $dbAdapter = '\Phalcon\Db\Adapter\Pdo\\' . $dbConfig['adapter'];
             unset($config['adapter']);
 
-            return new $dbAdapter($dbConfig);
+            $eventsManager = new EventsManager();
+
+            $logger = $this->getLogger();
+
+            $eventsManager->attach(
+                'db:beforeQuery',
+                function ($event, $connection) use ($logger) {
+                    $logger->info($connection->getSQLStatement() . ' ' . json_encode($connection->getSqlVariables()));
+                }
+            );
+
+            $connection = new $dbAdapter($dbConfig);
+            $connection->setEventsManager($eventsManager);
+
+            return $connection;
         };
 
         $di->setShared('gravatar', function () {

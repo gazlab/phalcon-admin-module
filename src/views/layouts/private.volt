@@ -100,6 +100,7 @@
 
             <!-- Main content -->
             <section class="content">
+                {{ flashSession.output() }}
                 {{ content() }}
             </section>
             <!-- /.content -->

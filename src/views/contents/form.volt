@@ -1,4 +1,3 @@
-{{ flashSession.output() }}
 {% if box is defined and box is true %}
 <div class="box">
     <div class="box-header with-border">

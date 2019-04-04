@@ -95,7 +95,10 @@ class ResourceController extends ControllerBase
             $modelName = $this->getResourceName();
 
             $table = new $modelName();
-            if (!$table->save($this->params())) {
+            foreach ($this->params() as $field => $value){
+                $table->$field = $value;
+            }
+            if (!$table->save()) {
                 foreach ($table->getMessages() as $error) {
                     $this->flash->error($error);
                 }
@@ -121,7 +124,10 @@ class ResourceController extends ControllerBase
     {
         $table = $this->queryGetOne();
         if ($this->request->isPost()) {
-            if (!$table->save($this->params())) {
+            foreach ($this->params() as $field => $value){
+                $table->$field = $value;
+            }
+            if (!$table->save()) {
                 foreach ($table->getMessages() as $error) {
                     $this->flash->error($error);
                 }

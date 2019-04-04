@@ -40,20 +40,23 @@ class UsersController extends ResourceController
 
     public function form()
     {
+        // if ($this->isUpdateAction()) {
+        // $profiles = [];
+        // $profilesToUsers = \ProfilesToUsers::find([
+        //     "user_id = ?0",
+        //     'bind' => [
+        //         $this->tag->getValue('id'),
+        //     ],
+        // ]);
+        // foreach ($profilesToUsers as $profileToUser) {
+        //     array_push($profiles, $profileToUser->profile_id);
+        // }
         if ($this->isUpdateAction()) {
-            $profiles = [];
-            $profilesToUsers = \ProfilesToUsers::find([
-                "user_id = ?0",
-                'bind' => [
-                    $this->tag->getValue('id'),
-                ],
-            ]);
-            foreach ($profilesToUsers as $profileToUser) {
-                array_push($profiles, $profileToUser->profile_id);
-            }
-
-            $this->select(['profiles_to_user[]', \Profiles::find(["active = 'Y'"]), 'using' => ['id', 'name'], 'multiple' => '', 'label' => 'Profiles', 'setDefault' => '1']);
+            $user = $this->queryGetOne();
+            $this->tag->setDefault('profiles_to_user', $user->profilesToUsers[0]->profile_id);
         }
+        $this->select(['profiles_to_user', \Profiles::find(["active = 'Y'"]), 'using' => ['id', 'name'], 'label' => 'Role Profile']);
+        // }
 
         $this->textField(['name']);
         $this->textField(['username']);
@@ -64,14 +67,26 @@ class UsersController extends ResourceController
             $this->passwordField(['password']);
         }
 
-        $this->fileField(['avatar', 'label' => 'Foto']);
-        $this->textField(['birthday', 'class' => 'date-picker']);
+        // $this->fileField(['avatar', 'label' => 'Foto']);
+        // $this->textField(['birthday', 'class' => 'date-picker']);
         $this->selectStatic(['active', ['Y' => 'Active', 'N' => 'Not Active'], 'label' => 'Status Active']);
     }
 
     public function params()
     {
         $params = [];
+
+        $profileId = $this->request->getPost('profiles_to_user');
+        if ($this->isCreateAction()) {
+            $profilesToUsers = new \ProfilesToUsers();
+            $profilesToUsers->profile_id = $profileId;
+            $params['profilesToUsers'] = $profilesToUsers;
+        }
+        if ($this->isUpdateAction()) {
+            $profilesToUsers = \ProfilesToUsers::findFirstByUserId($this->dispatcher->getParams()[0]);
+            $profilesToUsers->profile_id = $profileId;
+            $params['profilesToUsers'] = $profilesToUsers;
+        }
 
         if (!empty($this->request->getPost('password'))) {
             $params['password'] = $this->security->hash($this->request->getPost('password'));

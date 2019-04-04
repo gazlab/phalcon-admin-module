@@ -15,6 +15,7 @@ use Phalcon\Mvc\Dispatcher as MvcDispatcher;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
+use Phalcon\Logger\Adapter\File as FileAdapter;
 
 class Module implements ModuleDefinitionInterface
 {
@@ -210,6 +211,15 @@ class Module implements ModuleDefinitionInterface
                 'notice' => 'alert alert-info',
                 'warning' => 'alert alert-warning',
             ]);
+        });
+
+        $di->set('logger', function () {
+            $dir = APP_PATH . '/logs';
+            if (!is_dir($dir)){
+                mkdir($dir);
+            }
+
+            return new FileAdapter($dir . '/'.date('Ymd').'.log');
         });
     }
 }

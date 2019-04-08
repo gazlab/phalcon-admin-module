@@ -45,5 +45,9 @@
 </div>
 {% endif %}
 
+{% do assets.addCss('gazlab_assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') %}
+
 {% do assets.addJs('//cdn.ckeditor.com/4.11.3/basic/ckeditor.js', false) %}
+{% do assets.addJs('gazlab_assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') %}
+
 {% do assets.addInlineJs(view.getPartial(config.application.viewsDir~'/contents/form.js')) %}

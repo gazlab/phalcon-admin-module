@@ -79,25 +79,39 @@ class ResourceController extends ControllerBase
         $element = new \Phalcon\Forms\Element\Text($params[0]);
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
         $element->setLabel($label);
-        $element->setAttributes(['class' => 'form-control']);
+
+        $element->setAttribute('class', 'form-control');
+        if (isset($params['attr'])){
+            if (isset($params['attr']['class'])){
+                $params['attr']['class'] .= ' '.$element->getAttribute('class');
+            }
+            $element->setAttributes($params['attr']);
+        }
+
         array_push($this->formFields, $element);
     }
-    public function dateField($params)
-    {
-        $element = new \Phalcon\Forms\Element\Date($params[0]);
-        $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
-        $element->setLabel($label);
-        // $element->setAttributes(['class' => 'form-control']);
-        array_push($this->formFields, $element);
-    }
+    // public function dateField($params)
+    // {
+    //     $element = new \Phalcon\Forms\Element\Text($params[0]);
+    //     $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
+    //     $element->setLabel($label);
+    //     $element->setAttributes(['class' => 'form-control date-picker']);
+    //     array_push($this->formFields, $element);
+    // }
     public function textArea($params)
     {
         $element = new \Phalcon\Forms\Element\Textarea($params[0]);
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
-        unset($params['label']);
-        $params['class'] = isset($params['class']) ? $params['class'] . ' form-control' : 'form-control';
         $element->setLabel($label);
-        $element->setAttributes($params);
+
+        $element->setAttribute('class', 'form-control');
+        if (isset($params['attr'])){
+            if (isset($params['attr']['class'])){
+                $params['attr']['class'] .= ' '.$element->getAttribute('class');
+            }
+            $element->setAttributes($params['attr']);
+        }
+
         array_push($this->formFields, $element);
     }
     public function passwordField($params)
@@ -105,7 +119,15 @@ class ResourceController extends ControllerBase
         $element = new \Phalcon\Forms\Element\Password($params[0]);
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
         $element->setLabel($label);
-        $element->setAttributes(['class' => 'form-control']);
+
+        $element->setAttribute('class', 'form-control');
+        if (isset($params['attr'])){
+            if (isset($params['attr']['class'])){
+                $params['attr']['class'] .= ' '.$element->getAttribute('class');
+            }
+            $element->setAttributes($params['attr']);
+        }
+
         array_push($this->formFields, $element);
     }
     public function fileField($params)
@@ -139,7 +161,14 @@ class ResourceController extends ControllerBase
             $element->addOption([$option[$key] => $option[$value]]);
         }
 
-        $element->setAttributes(['class' => 'select2']);
+        $element->setAttribute('class', 'select2');
+        if (isset($params['attr'])){
+            if (isset($params['attr']['class'])){
+                $params['attr']['class'] .= ' '.$element->getAttribute('class');
+            }
+            $element->setAttributes($params['attr']);
+        }
+
         array_push($this->formFields, $element);
     }
     public function selectStatic($params)
@@ -148,7 +177,13 @@ class ResourceController extends ControllerBase
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
         $element->setLabel($label);
         $element->setOptions($params[1]);
-        $element->setAttributes(['class' => 'select2']);
+        $element->setAttribute('class', 'select2');
+        if (isset($params['attr'])){
+            if (isset($params['attr']['class'])){
+                $params['attr']['class'] .= ' '.$element->getAttribute('class');
+            }
+            $element->setAttributes($params['attr']);
+        }
         array_push($this->formFields, $element);
     }
     public function createAction()

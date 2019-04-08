@@ -124,4 +124,6 @@
     {% do assets.addJs('gazlab_assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') %}
     {% do assets.addJs('gazlab_assets/bower_components/fastclick/lib/fastclick.js') %}
 
+    {% do assets.addJs('//cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js', false) %}
+
     {% do assets.addInlineJs(view.getPartial(view.getLayoutsDir()~'/private.js')) %}

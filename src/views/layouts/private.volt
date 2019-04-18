@@ -116,10 +116,14 @@
     </div>
     <!-- ./wrapper -->
 
+    {% do assets.addCss('gazlab_assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') %}
+
     {% do assets.addJs('gazlab_assets/bower_components/datatables.net/js/jquery.dataTables.min.js') %}
     {% do assets.addJs('gazlab_assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') %}
 
     {% do assets.addJs('gazlab_assets/bower_components/select2/dist/js/select2.full.min.js') %}
+
+    {% do assets.addJs('gazlab_assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') %}
 
     {% do assets.addJs('gazlab_assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') %}
     {% do assets.addJs('gazlab_assets/bower_components/fastclick/lib/fastclick.js') %}

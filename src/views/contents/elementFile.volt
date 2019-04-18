@@ -4,5 +4,6 @@
     <div class="col-sm-10">
         {{ element.getUserOption('showFiles') }}
         {{ element }}
+        <span class="help-block">{{ element.getUserOption('help_message') }}</span>
     </div>
 </div>

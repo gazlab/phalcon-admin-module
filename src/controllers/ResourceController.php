@@ -149,6 +149,10 @@ class ResourceController extends ControllerBase
             $element->setAttributes($params['attr']);
         }
 
+        if (isset($params['help_message'])) {
+            $element->setUserOption('help_message', $params['help_message']);
+        }
+
         array_push($this->formFields, $element);
     }
 
@@ -177,6 +181,9 @@ class ResourceController extends ControllerBase
         if (isset($params['showFiles'])) {
             $element->setUserOption('showFiles', $params['showFiles']);
         }
+        if (isset($params['help_message'])) {
+            $element->setUserOption('help_message', $params['help_message']);
+        }
         if (isset($params['attr'])) {
             $element->setAttributes($params['attr']);
         }
@@ -200,7 +207,7 @@ class ResourceController extends ControllerBase
         $value = $params['using'][1];
         $options = [];
         foreach ($params[1] as $option) {
-            $option = (array)$option;
+            $option = (array) $option;
             $element->addOption([$option[$key] => $option[$value]]);
         }
 

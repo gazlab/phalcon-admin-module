@@ -35,7 +35,8 @@ $('#list_data').DataTable({
     ],
     drawCallback: function () {
         $('[data-toggle="popover"]').popover({
-            html: true
+            html: true,
+            placement: "left"
         });
     }
 });

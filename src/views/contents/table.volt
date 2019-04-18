@@ -2,7 +2,7 @@
 {% if box is defined and box is true %}
 <div class="box">
     <div class="box-header">
-        <h3 class="box-title">List Data</h3>
+        <h3 class="box-title">{{ title is defined ? title : 'List Data' }}</h3>
         <div class="box-tools">
             {% if acl.isAllowed(userSession.profile.name, router.getControllerName(), 'create') %}
             <a title="Add New"

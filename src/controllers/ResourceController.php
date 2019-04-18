@@ -1,4 +1,5 @@
 <?php
+
 namespace Gazlab\Admin\Controllers;
 
 use DataTables\DataTable;
@@ -6,6 +7,16 @@ use Phalcon\Forms\Form;
 
 class ResourceController extends ControllerBase
 {
+    public function table()
+    {
+
+    }
+
+    public function form()
+    {
+
+    }
+
     public function params()
     {
         return $this->request->getPost();
@@ -14,15 +25,34 @@ class ResourceController extends ControllerBase
     // READ
     public $columns = [];
     public $queryMethod = 'builder';
+
     public function column($params)
     {
         $params['header'] = isset($params['header']) ? $params['header'] : ucwords(\Phalcon\Text::humanize($params[0]));
         $params['data'] = $params[0];
         array_push($this->columns, $params);
     }
+
     public function actions($extras = [])
     {
         $actions = [];
+
+        if (count($extras)) {
+            foreach ($extras as $extra) {
+                if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), $extra[0])) {
+                    $extra['name'] = isset($extra['name']) ? $extra['name'] : ucwords(\Phalcon\Text::humanize(\Phalcon\Text::uncamelize($extra[0], '-')));
+                    $elementAttr = [];
+                    if (isset($extra['attr'])) {
+                        foreach ($extra['attr'] as $key => $value) {
+                            $elementAttr[] = $key . '="' . $value . '"';
+                        }
+                    }
+
+                    $actions[] = '<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), $extra[0]])) . '/\'+row.DT_RowId+\'" title="' . $extra['name'] . '" class="btn btn-xs btn-default" ' . join(' ', $elementAttr) . '><i class="' . $extra['icon'] . '"></i></a>';
+                }
+            }
+        }
+
         if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')) {
             $actions[] = '<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update'])) . '/\'+row.DT_RowId+\'" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-edit"></i></a>';
         }
@@ -40,19 +70,23 @@ class ResourceController extends ControllerBase
 
         array_push($this->columns, $params);
     }
+
     public function getQueryMethod()
     {
         return $this->queryMethod;
     }
+
     public function setQueryMethod($queryMethod)
     {
         $this->queryMethod = $queryMethod;
     }
+
     public function queryGetAll()
     {
         return $this->modelsManager->createBuilder()
             ->from(\Phalcon\Text::camelize($this->router->getControllerName()));
     }
+
     public function indexAction()
     {
         if ($this->request->isAjax()) {
@@ -67,6 +101,7 @@ class ResourceController extends ControllerBase
     }
 
     public $formAttributes = [];
+
     public function setFormAttributes($attributes = [])
     {
         $this->formAttributes = $attributes;
@@ -74,6 +109,8 @@ class ResourceController extends ControllerBase
 
     // CREATE
     public $formFields = [];
+    public $insertId = null;
+
     public function textField($params)
     {
         $element = new \Phalcon\Forms\Element\Text($params[0]);
@@ -81,9 +118,9 @@ class ResourceController extends ControllerBase
         $element->setLabel($label);
 
         $element->setAttribute('class', 'form-control');
-        if (isset($params['attr'])){
-            if (isset($params['attr']['class'])){
-                $params['attr']['class'] .= ' '.$element->getAttribute('class');
+        if (isset($params['attr'])) {
+            if (isset($params['attr']['class'])) {
+                $params['attr']['class'] .= ' ' . $element->getAttribute('class');
             }
             $element->setAttributes($params['attr']);
         }
@@ -105,15 +142,16 @@ class ResourceController extends ControllerBase
         $element->setLabel($label);
 
         $element->setAttribute('class', 'form-control');
-        if (isset($params['attr'])){
-            if (isset($params['attr']['class'])){
-                $params['attr']['class'] .= ' '.$element->getAttribute('class');
+        if (isset($params['attr'])) {
+            if (isset($params['attr']['class'])) {
+                $params['attr']['class'] .= ' ' . $element->getAttribute('class');
             }
             $element->setAttributes($params['attr']);
         }
 
         array_push($this->formFields, $element);
     }
+
     public function passwordField($params)
     {
         $element = new \Phalcon\Forms\Element\Password($params[0]);
@@ -121,15 +159,16 @@ class ResourceController extends ControllerBase
         $element->setLabel($label);
 
         $element->setAttribute('class', 'form-control');
-        if (isset($params['attr'])){
-            if (isset($params['attr']['class'])){
-                $params['attr']['class'] .= ' '.$element->getAttribute('class');
+        if (isset($params['attr'])) {
+            if (isset($params['attr']['class'])) {
+                $params['attr']['class'] .= ' ' . $element->getAttribute('class');
             }
             $element->setAttributes($params['attr']);
         }
 
         array_push($this->formFields, $element);
     }
+
     public function fileField($params)
     {
         $element = new \Phalcon\Forms\Element\File($params[0]);
@@ -138,9 +177,13 @@ class ResourceController extends ControllerBase
         if (isset($params['showFiles'])) {
             $element->setUserOption('showFiles', $params['showFiles']);
         }
+        if (isset($params['attr'])) {
+            $element->setAttributes($params['attr']);
+        }
         // $element->setAttributes(['class' => 'form-control']);
         array_push($this->formFields, $element);
     }
+
     public function select($params)
     {
         $element = new \Phalcon\Forms\Element\Select($params[0]);
@@ -157,20 +200,21 @@ class ResourceController extends ControllerBase
         $value = $params['using'][1];
         $options = [];
         foreach ($params[1] as $option) {
-            $option = (array) $option;
+            $option = (array)$option;
             $element->addOption([$option[$key] => $option[$value]]);
         }
 
         $element->setAttribute('class', 'select2');
-        if (isset($params['attr'])){
-            if (isset($params['attr']['class'])){
-                $params['attr']['class'] .= ' '.$element->getAttribute('class');
+        if (isset($params['attr'])) {
+            if (isset($params['attr']['class'])) {
+                $params['attr']['class'] .= ' ' . $element->getAttribute('class');
             }
             $element->setAttributes($params['attr']);
         }
 
         array_push($this->formFields, $element);
     }
+
     public function selectStatic($params)
     {
         $element = new \Phalcon\Forms\Element\Select($params[0]);
@@ -178,14 +222,25 @@ class ResourceController extends ControllerBase
         $element->setLabel($label);
         $element->setOptions($params[1]);
         $element->setAttribute('class', 'select2');
-        if (isset($params['attr'])){
-            if (isset($params['attr']['class'])){
-                $params['attr']['class'] .= ' '.$element->getAttribute('class');
+        if (isset($params['attr'])) {
+            if (isset($params['attr']['class'])) {
+                $params['attr']['class'] .= ' ' . $element->getAttribute('class');
             }
             $element->setAttributes($params['attr']);
         }
         array_push($this->formFields, $element);
     }
+
+    public function setInsertId($id)
+    {
+        $this->insertId = $id;
+    }
+
+    public function getInsertId()
+    {
+        return $this->insertId;
+    }
+
     public function createAction()
     {
         if ($this->request->isPost()) {
@@ -199,6 +254,11 @@ class ResourceController extends ControllerBase
                     $this->flash->error($message);
                 }
             } else {
+                if (method_exists($this, 'afterSave')) {
+                    $this->setInsertId($model->id);
+                    $this->afterSave();
+                }
+
                 $this->flashSession->success('Data has been saved');
 
                 if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')) {
@@ -219,6 +279,7 @@ class ResourceController extends ControllerBase
             $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'New', 'formFields' => $formFields, 'box' => true, 'attrs' => $this->formAttributes]);
         }
     }
+
     public function isCreateAction()
     {
         return $this->router->getActionName() === 'create';
@@ -229,11 +290,13 @@ class ResourceController extends ControllerBase
     {
         return $this->router->getActionName() === 'update';
     }
+
     public function queryGetOne()
     {
         $modelName = ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName()));
         return $modelName::findFirst($this->dispatcher->getParams()[0]);
     }
+
     public function updateAction()
     {
         $model = $this->queryGetOne();
@@ -246,6 +309,10 @@ class ResourceController extends ControllerBase
                     $this->flash->error($message);
                 }
             } else {
+                if (method_exists('afterSave')) {
+                    $this->afterSave();
+                }
+
                 $this->flashSession->success('Data has been updated');
                 return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update', $model->id]));
             }

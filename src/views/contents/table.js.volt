@@ -1,6 +1,8 @@
 $('#list_data').DataTable({
+    processing: true,
     serverSide: true,
     responsive: true,
+    stateSave: true,
     ajax: {
         url: '<?= $this->router->getRewriteUri() ?>',
         method: 'POST'

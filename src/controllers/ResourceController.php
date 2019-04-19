@@ -8,14 +8,10 @@ use Phalcon\Forms\Form;
 class ResourceController extends ControllerBase
 {
     public function table()
-    {
-
-    }
+    { }
 
     public function form()
-    {
-
-    }
+    { }
 
     public function params()
     {
@@ -207,7 +203,7 @@ class ResourceController extends ControllerBase
         $value = $params['using'][1];
         $options = [];
         foreach ($params[1] as $option) {
-            $option = (array) $option;
+            $option = (array)$option;
             $element->addOption([$option[$key] => $option[$value]]);
         }
 
@@ -251,6 +247,13 @@ class ResourceController extends ControllerBase
     public function createAction()
     {
         if ($this->request->isPost()) {
+            if (method_exists($this, 'beforeCreate')) {
+                $this->beforeCreate();
+            }
+            if (method_exists($this, 'beforeSave')) {
+                $this->beforeSave();
+            }
+
             $modelName = ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName()));
             $model = new $modelName();
             foreach ($this->params() as $field => $value) {
@@ -261,6 +264,9 @@ class ResourceController extends ControllerBase
                     $this->flash->error($message);
                 }
             } else {
+                if (method_exists($this, 'afterCreate')) {
+                    $this->afterCreate();
+                }
                 if (method_exists($this, 'afterSave')) {
                     $this->setInsertId($model->id);
                     $this->afterSave();
@@ -308,6 +314,13 @@ class ResourceController extends ControllerBase
     {
         $model = $this->queryGetOne();
         if ($this->request->isPost()) {
+            if (method_exists($this, 'beforeUpdate')) {
+                $this->beforeUpdate();
+            }
+            if (method_exists($this, 'beforeSave')) {
+                $this->beforeSave();
+            }
+
             foreach ($this->params() as $field => $value) {
                 $model->$field = $value;
             }
@@ -316,7 +329,10 @@ class ResourceController extends ControllerBase
                     $this->flash->error($message);
                 }
             } else {
-                if (method_exists('afterSave')) {
+                if (method_exists($this, 'afterUpdate')) {
+                    $this->afterUpdate();
+                }
+                if (method_exists($this, 'afterSave')) {
                     $this->afterSave();
                 }
 

@@ -44,21 +44,21 @@ class ResourceController extends ControllerBase
                         }
                     }
 
-                    $actions[] = '<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), $extra[0]])) . '/\'+row.DT_RowId+\'" title="' . $extra['name'] . '" class="btn btn-xs btn-default" ' . join(' ', $elementAttr) . '><i class="' . $extra['icon'] . '"></i></a>';
+                    $actions[] = '<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), $extra[0]])) . '/\'+row.DT_RowId+\'" title="' . $extra['name'] . '" class="btn btn-default" ' . join(' ', $elementAttr) . '><i class="' . $extra['icon'] . '"></i></a>';
                 }
             }
         }
 
         if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')) {
-            $actions[] = '<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update'])) . '/\'+row.DT_RowId+\'" title="Edit" class="btn btn-xs btn-default"><i class="fa fa-edit"></i></a>';
+            $actions[] = '<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update'])) . '/\'+row.DT_RowId+\'" title="Edit" class="btn btn-default"><i class="fa fa-edit"></i></a>';
         }
         if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'delete')) {
             $contents[] = $this->escaper->escapeHtml('<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'delete']))) . '/\'+row.DT_RowId+\'' . $this->escaper->escapeHtml('" class="btn btn-danger">Yes</a>');
             $contents[] = $this->escaper->escapeHtml('<a href="#" class="btn btn-default">No</a>');
-            $actions[] = '<a tabindex="0" data-trigger="focus" title="Are you sure?" class="btn btn-xs btn-danger" data-toggle="popover" data-content="' . join(' ', $contents) . '"><i class="fa fa-trash"></i></a>';
+            $actions[] = '<a tabindex="0" data-trigger="focus" title="Are you sure?" class="btn btn-danger" data-toggle="popover" data-content="' .$this->escaper->escapeHtml('<div class="btn-group" role="group" aria-label="Delete">'). join('', $contents) . $this->escaper->escapeHtml('</div>') . '"><i class="fa fa-trash"></i></a>';
         }
 
-        $params['render'] = 'function( data, type, row, meta ){return \'' . join(' ', $actions) . '\'}';
+        $params['render'] = 'function( data, type, row, meta ){return \'<div class="btn-group btn-group-sm btn-block" role="group" aria-label="Actions">' . join('', $actions) . '</div>\'}';
         $params['data'] = 'actions';
         $params['header'] = '';
         $params['searchable'] = false;

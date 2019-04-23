@@ -79,15 +79,25 @@ class UsersController extends ResourceController
         $this->db->begin();
         foreach ($user->getProfilesToUsers() as $profile) {
             if (!$profile->delete()) {
+                foreach ($profile->getMessages() as $error) {
+                    $this->flash->error($error);
+                }
                 $this->db->rollback;
                 return;
             }
         }
         if (!$user->delete()) {
+            foreach ($user->getMessages() as $error) {
+                $this->flash->error($error);
+            }
             $this->db->rollback;
             return;
         }
         $this->db->commit();
+
+        $this->flashSession->warning('Data has been deleted.');
+
+        return $this->response->redirect($this->router->getModuleName() . '/' . $this->router->getControllerName());
     }
 
     public function params()

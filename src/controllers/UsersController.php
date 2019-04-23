@@ -72,6 +72,24 @@ class UsersController extends ResourceController
         $this->selectStatic(['active', ['Y' => 'Active', 'N' => 'Not Active'], 'label' => 'Status Active']);
     }
 
+    public function deleteAction()
+    {
+        $user = $this->queryGetOne();
+
+        $this->db->begin();
+        foreach ($user->getProfilesToUsers() as $profile) {
+            if (!$profile->delete()) {
+                $this->db->rollback;
+                return;
+            }
+        }
+        if (!$user->delete()) {
+            $this->db->rollback;
+            return;
+        }
+        $this->db->commit();
+    }
+
     public function params()
     {
         $params = [];

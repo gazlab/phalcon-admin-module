@@ -74,29 +74,34 @@ class UsersController extends ResourceController
 
     public function deleteAction()
     {
-        $user = $this->queryGetOne();
+        try {
+            $user = $this->queryGetOne();
 
-        $this->db->begin();
-        foreach ($user->getProfilesToUsers() as $profile) {
-            if (!$profile->delete()) {
-                foreach ($profile->getMessages() as $error) {
-                    $this->flash->error($error);
+            $this->db->begin();
+            foreach ($user->getProfilesToUsers() as $profile) {
+                if (!$profile->delete()) {
+                    foreach ($profile->getMessages() as $error) {
+                        $this->flashSession->error($error);
+                    }
+                    $this->db->rollback;
+                    return;
+                }
+            }
+
+            if (!$user->delete()) {
+                foreach ($user->getMessages() as $error) {
+                    $this->flashSession->error($error);
                 }
                 $this->db->rollback;
                 return;
             }
-        }
-        if (!$user->delete()) {
-            foreach ($user->getMessages() as $error) {
-                $this->flash->error($error);
-            }
-            $this->db->rollback;
-            return;
-        }
-        $this->db->commit();
 
-        $this->flashSession->warning('Data has been deleted.');
+            $this->db->commit();
 
+            $this->flashSession->warning('Data has been deleted.');
+        } catch (\PDOException $e) {
+            $this->flashSession->error($e);
+        }
         return $this->response->redirect($this->router->getModuleName() . '/' . $this->router->getControllerName());
     }
 

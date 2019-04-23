@@ -10,18 +10,18 @@ class UsersController extends ResourceController
 
     public function queryGetAll()
     {
-        $criteria = [];
+        // $criteria = [];
 
-        if ($this->userSession->id != 1) {
-            $criteria = [
-                "created_by = ?0",
-                'bind' => [
-                    $this->userSession->id,
-                ],
-            ];
-        }
+        // if ($this->userSession->id != 1) {
+        //     $criteria = [
+        //         "created_by = ?0",
+        //         'bind' => [
+        //             $this->userSession->id,
+        //         ],
+        //     ];
+        // }
 
-        return \Users::find($criteria);
+        return \Users::find();
     }
 
     public function queryGetOne()

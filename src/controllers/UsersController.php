@@ -114,6 +114,8 @@ class UsersController extends ResourceController
             $profilesToUsers = new \ProfilesToUsers();
             $profilesToUsers->profile_id = $profileId;
             $params['profilesToUsers'] = $profilesToUsers;
+
+            $params['created_by'] = $this->userSession->id;
         }
         if ($this->isUpdateAction()) {
             $profilesToUsers = \ProfilesToUsers::findFirstByUserId($this->dispatcher->getParams()[0]);

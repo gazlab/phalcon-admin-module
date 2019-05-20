@@ -4,7 +4,7 @@
     <div class="box-header">
         <h3 class="box-title">{{ title is defined ? title : 'List Data' }}</h3>
         <div class="box-tools">
-            {% if acl.isAllowed(userSession.profile.name, router.getControllerName(), 'create') %}
+            {% if acl.isAllowed(userSession.profile.name, router.getControllerName(), 'create') and router.getActionName() is 'index' %}
             <a title="Add New"
                 href="{{ url([router.getModuleName(), router.getControllerName(), 'create']|join('/')) }}"
                 class="btn btn-box-tool"><i class="fa fa-plus"></i></a>

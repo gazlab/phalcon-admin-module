@@ -14,6 +14,7 @@ $('#list_data').DataTable({
         foreach ($column as $key => $value){
             switch ($key) {
                 case '0':
+                case 'footer':
                     unset($column[$key]);
                     break;
                 case 'render':
@@ -35,6 +36,20 @@ $('#list_data').DataTable({
     columns: [
         <?= join(',', $js) ?>
     ],
+
+    <?php if (count($options)) {
+        foreach ($options as $keyOpt => $valueOpt) {
+            switch ($keyOpt) {
+                case 'initComplete':
+                case 'buttons': ?>
+                    <?= $keyOpt ?>: <?= $valueOpt ?>,
+                    <?php break;
+                default: ?>
+                    <?= $keyOpt ?>: "<?= $valueOpt ?>",
+            <?php }
+        }
+    } ?>
+
     drawCallback: function () {
         $('[data-toggle="popover"]').popover({
             html: true,

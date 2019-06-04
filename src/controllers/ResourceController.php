@@ -93,7 +93,7 @@ class ResourceController extends ControllerBase
         }
 
         $this->table();
-        $this->view->partial($this->config->application->viewsDir . 'contents/table', ['columns' => $this->columns, 'box' => true]);
+        $this->view->partial($this->config->application->viewsDir . 'contents/table', ['columns' => $this->columns, 'box' => true, 'options' => $this->tableOptions]);
     }
 
     public $formAttributes = [];
@@ -101,6 +101,13 @@ class ResourceController extends ControllerBase
     public function setFormAttributes($attributes = [])
     {
         $this->formAttributes = $attributes;
+    }
+
+    public $tableOptions = [];
+
+    public function setTableOptions($options = [])
+    {
+        $this->tableOptions = $options;
     }
 
     // CREATE

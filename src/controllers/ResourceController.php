@@ -47,7 +47,7 @@ class ResourceController extends ControllerBase
         $this->view->setVars(
             [
                 'contents' => [
-                    ['table', 'columns' => $this->columns, 'title' => 'List', 'card' => true],
+                    ['table', 'columns' => $this->columns, 'title' => 'List', 'card' => true, 'options' => $this->tableOptions],
                 ],
             ]
         );
@@ -75,11 +75,11 @@ class ResourceController extends ControllerBase
         $actions[] = '<a href="' . $this->url->get($this->router->getModuleName() . '/' . $this->router->getControllerName() . '/update') . '/\'+row.DT_RowId+\'" title="Edit" class="btn btn-sm btn-light"><i class="fa fa-edit"></i></a>';
 
         // Delete Action
-        $content = $this->escaper->escapeHtml('<a href="'.$this->url->get(join('/', [
+        $content = $this->escaper->escapeHtml('<a href="' . $this->url->get(join('/', [
             $this->router->getModuleName(),
             $this->router->getControllerName(),
             'delete',
-        ])).'/') . '\'+row.DT_RowId+\'' . $this->escaper->escapeHtml('" class="btn btn-danger">Yes</a> <a role="button" class="btn btn-default">No</a>');
+        ])) . '/') . '\'+row.DT_RowId+\'' . $this->escaper->escapeHtml('" class="btn btn-danger">Yes</a> <a role="button" class="btn btn-default">No</a>');
         $actions[] = '<a tabindex="0" role="button" title="Are you sure?" class="btn btn-sm btn-danger" data-toggle="popover" data-content="' . $content . '"><i class="fa fa-trash"></i></a>';
 
         $params['render'] = 'function(data, type, row, meta){
@@ -95,7 +95,7 @@ class ResourceController extends ControllerBase
             $modelName = $this->getResourceName();
 
             $table = new $modelName();
-            foreach ($this->params() as $field => $value){
+            foreach ($this->params() as $field => $value) {
                 $table->$field = $value;
             }
             if (!$table->save()) {
@@ -124,7 +124,7 @@ class ResourceController extends ControllerBase
     {
         $table = $this->queryGetOne();
         if ($this->request->isPost()) {
-            foreach ($this->params() as $field => $value){
+            foreach ($this->params() as $field => $value) {
                 $table->$field = $value;
             }
             if (!$table->save()) {
@@ -136,7 +136,7 @@ class ResourceController extends ControllerBase
                 return $this->response->redirect($this->router->getModuleName() . '/' . $this->router->getControllerName() . '/update/' . $table->id);
             }
         }
-        
+
         $this->tag->setDefaults($table->toArray());
 
         $this->form();
@@ -156,15 +156,15 @@ class ResourceController extends ControllerBase
         $this->view->disable();
 
         $table = $this->queryGetOne();
-        
-            if (!$table->delete()) {
-                foreach ($table->getMessages() as $error) {
-                    $this->flash->error($error);
-                }
-            } else {
-                $this->flashSession->warning('Data has been deleted.');
-                return $this->response->redirect($this->router->getModuleName() . '/' . $this->router->getControllerName());
+
+        if (!$table->delete()) {
+            foreach ($table->getMessages() as $error) {
+                $this->flash->error($error);
             }
+        } else {
+            $this->flashSession->warning('Data has been deleted.');
+            return $this->response->redirect($this->router->getModuleName() . '/' . $this->router->getControllerName());
+        }
     }
 
     public function params()
@@ -236,5 +236,12 @@ class ResourceController extends ControllerBase
     public function isUpdateAction()
     {
         return $this->router->getActionName() === 'update';
+    }
+
+    public $tableOptions = [];
+
+    public function setTableOptions($options = [])
+    {
+        $this->tableOptions = $options;
     }
 }

@@ -25,6 +25,15 @@ method: 'POST'
 columns: [
 {{ datas|join(',') }}
 ],
+<?php if (count($options) > 0) { ?>
+    <?php foreach ($options as $key => $value) { ?>
+        <?php if (is_array($value)) { ?>
+            <?=$key?>: <?=json_encode($value)?>,
+        <?php } else { ?>
+            <?=$key?>: <?=$value?>,
+        <?php } ?>
+    <?php } ?>
+<?php } ?>
 drawCallback: function() {
 $('[data-toggle="popover"]').popover({
 trigger: 'focus',

@@ -1,3 +1,4 @@
 $(".select2").select2({
-    dropdownAutoWidth: true
+    dropdownAutoWidth: true,
+    width: 'auto'
 });

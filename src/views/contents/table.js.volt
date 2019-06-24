@@ -4,7 +4,7 @@ $('#list_data').DataTable({
     responsive: true,
     stateSave: true,
     ajax: {
-        url: '<?= $this->router->getRewriteUri() ?>',
+        url: '<?= $this->url->get($this->router->getRewriteUri()) ?>',
         method: 'POST'
     },
     <?php 

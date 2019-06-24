@@ -17,7 +17,7 @@ environments:
     development:
         adapter: mysql
         host: localhost
-        name: tlx_development
+        name: imove_dss_library_development
         user: root
         pass: password
         port: 3306

@@ -31,7 +31,7 @@ class CreateProfiles extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('profiles', ['engine' => 'MyISAM']);
+        $table = $this->table('profiles');
         $table->addColumn('name', 'string')
             ->addColumn('description', 'text', ['null' => true])
             ->addColumn('active', 'integer')

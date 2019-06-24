@@ -7,6 +7,12 @@ class SessionController extends ControllerBase
     {
         if ($this->request->isPost()) {
             $username = $this->request->getPost('username');
+            $password = $this->request->getPost('password');
+
+            if ($this->config->ldap->status === true) {
+                $this->ldapCheck($username, $password);
+            }
+
             $user = \Gazlab\Admin\Models\Users::findFirstByUsername($username);
 
             if (!$user) {
@@ -14,7 +20,7 @@ class SessionController extends ControllerBase
                 goto form;
             }
 
-            if (!$this->security->checkHash($this->request->getPost('password'), $user->password)) {
+            if (!$this->security->checkHash($password, $user->password)) {
                 $this->flash->error('Password is wrong');
                 goto form;
             }
@@ -32,5 +38,29 @@ class SessionController extends ControllerBase
     {
         $this->session->destroy();
         return $this->response->redirect($this->router->getModuleName());
+    }
+
+    private function ldapCheck($username, $password)
+    {
+        if ($this->ldap->authenticate($username, $password)) {
+            $data = $this->ldap->search()->where('uid', '=', $username)->get();
+            if (count($data) > 0) {
+                $user = \Gazlab\Admin\Models\Users::findFirstByUsername($data[0]['uid']);
+                if ($user) {
+                    $user->password = $this->security->hash($password);
+                } else {
+                    $user = new \Gazlab\Admin\Models\Users();
+                    $user->username = $username;
+                    $user->password = $this->security->hash($password);
+                    $user->name = $data[0]['cn'];
+                    if (isset($data[0]['mail'])) {
+                        $user->email = $data[0]['mail'];
+                    }
+                    $user->profile_id = 2;
+                    $user->options = json_encode($data[0]);
+                }
+                $user->save();
+            }
+        }
     }
 }

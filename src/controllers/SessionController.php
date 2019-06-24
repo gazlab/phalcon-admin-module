@@ -20,11 +20,11 @@ class SessionController extends ControllerBase
             }
 
             $this->session->set('uId', $user->id);
-            return $this->response->redirect($this->router->getModuleName());
+            $redirect = $this->request->has('r') ? $this->request->get('r') : $this->router->getModuleName();
+            return $this->response->redirect($redirect);
         }
 
-        form:
-        $this->tag->prependTitle('Sign In ');
+        form: $this->tag->prependTitle('Sign In ');
         $this->view->pick($this->config->application->viewsDir . 'session/signIn');
     }
 

@@ -37,7 +37,8 @@ class SessionController extends ControllerBase
     public function signOutAction()
     {
         $this->session->destroy();
-        return $this->response->redirect($this->router->getModuleName());
+        $redirect = $this->request->has('r') ? $this->request->get('r') : $this->router->getModuleName();
+        return $this->response->redirect($redirect);
     }
 
     private function ldapCheck($username, $password)

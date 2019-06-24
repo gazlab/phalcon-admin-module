@@ -9,7 +9,7 @@ class SessionController extends ControllerBase
             $username = $this->request->getPost('username');
             $password = $this->request->getPost('password');
 
-            if ($this->config->ldap->status === true) {
+            if (isset($this->config->ldap->status) && $this->config->ldap->status === true) {
                 $this->ldapCheck($username, $password);
             }
 

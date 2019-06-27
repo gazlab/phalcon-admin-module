@@ -16,6 +16,7 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Logger\Adapter\File as FileAdapter;
+use Adldap\Adldap;
 
 class Module implements ModuleDefinitionInterface
 {
@@ -215,11 +216,18 @@ class Module implements ModuleDefinitionInterface
 
         $di->set('logger', function () {
             $dir = APP_PATH . '/logs';
-            if (!is_dir($dir)){
+            if (!is_dir($dir)) {
                 mkdir($dir);
             }
 
-            return new FileAdapter($dir . '/'.date('Ymd').'.log');
+            return new FileAdapter($dir . '/' . date('Ymd') . '.log');
+        });
+
+        $di->set('ldap', function () {
+            $config = $this->getConfig()->ldap->toArray();
+            unset($config['status']);
+            $ldap = new Adldap($config);
+            return $ldap;
         });
     }
 }

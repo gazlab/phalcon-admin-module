@@ -2,7 +2,7 @@
 
 {% do assets.addCss('gazlab_assets/bower_components/select2/dist/css/select2.min.css') %}
 
-<body class="hold-transition skin-purple sidebar-mini">
+<body class="hold-transition {{ config.gazlab.skin is defined ? config.gazlab.skin : 'skin-purple' }} sidebar-mini">
     <!-- Site wrapper -->
     <div class="wrapper">
 

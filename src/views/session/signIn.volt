@@ -7,7 +7,8 @@
         <div class="login-box-body">
             <p class="login-box-msg">Sign in to start your session</p>
             {{ content() }}
-            {{ form([router.getModuleName(), 'session', 'signIn']|join('/')) }}
+            {% set redirect = request.has('r') ? '?r='~request.get('r') : null %}
+            {{ form([router.getModuleName(), 'session', 'signIn']|join('/')~redirect) }}
             <div class="form-group has-feedback">
                 <input class="form-control" placeholder="Username" name="username" autofocus>
                 <span class="glyphicon glyphicon-user form-control-feedback"></span>

@@ -31,7 +31,7 @@ class CreateUsers extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('users', ['engine' => 'MyISAM']);
+        $table = $this->table('users');
         $table->addColumn('profile_id', 'integer')
             ->addColumn('username', 'string')
             ->addColumn('password', 'string')

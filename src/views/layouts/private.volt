@@ -116,6 +116,7 @@
     </div>
     <!-- ./wrapper -->
 
+    {% do assets.addCss('gazlab_assets/bower_components/bootstrap-daterangepicker/daterangepicker.css') %}
     {% do assets.addCss('gazlab_assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') %}
     {% do assets.addCss('https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css', false) %}
 
@@ -125,6 +126,8 @@
 
     {% do assets.addJs('gazlab_assets/bower_components/select2/dist/js/select2.full.min.js') %}
 
+    {% do assets.addJs('gazlab_assets/bower_components/moment/min/moment.min.js') %}
+    {% do assets.addJs('gazlab_assets/bower_components/bootstrap-daterangepicker/daterangepicker.js') %}
     {% do assets.addJs('gazlab_assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') %}
 
     {% do assets.addJs('gazlab_assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') %}

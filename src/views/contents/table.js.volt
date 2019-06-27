@@ -37,9 +37,11 @@ $('#list_data').DataTable({
         <?= join(',', $js) ?>
     ],
 
-    <?php if (count($options)) {
+    <?php if (isset($options) && count($options)) {
         foreach ($options as $keyOpt => $valueOpt) {
             switch ($keyOpt) {
+                case 'search':
+                case 'searchable':
                 case 'initComplete':
                 case 'buttons': ?>
                     <?= $keyOpt ?>: <?= $valueOpt ?>,

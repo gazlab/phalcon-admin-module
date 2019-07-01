@@ -50,7 +50,7 @@ class ResourceController extends ControllerBase
                             $btnActions[] = $this->escaper->escapeHtml('<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), $btnAction[0]]))) . '/\'+row.DT_RowId+\'' . $this->escaper->escapeHtml('" title="' . $btnAction['name'] . '" class="btn btn-default" ' .  join(' ', $elementAttr) .  '><i class="' . $btnAction['icon'] . '"></i> ' . $btnAction['name'] . '</a>');
                         }
                     }
-                    $actions[] = '<a tabindex="0" data-trigger="focus" title="' . $extra['name'] . '" class="btn btn-default" data-toggle="popover" data-content="' . $this->escaper->escapeHtml('<div class="btn-group-vertical">') . join('', $btnActions) . $this->escaper->escapeHtml('</div>') .'"><i class="' . $extra['icon'] . '"></i></a>';
+                    $actions[] = '<a tabindex="0" data-trigger="focus" title="' . $extra['name'] . '" class="btn btn-default" data-toggle="popover" data-content="' . $this->escaper->escapeHtml('<div class="btn-group-vertical">') . join('', $btnActions) . $this->escaper->escapeHtml('</div>') . '"><i class="' . $extra['icon'] . '"></i></a>';
                 } else {
                     if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), $extra[0])) {
                         $extra['name'] = isset($extra['name']) ? $extra['name'] : ucwords(\Phalcon\Text::humanize(\Phalcon\Text::uncamelize($extra[0], '-')));

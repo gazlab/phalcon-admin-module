@@ -55,7 +55,10 @@ $('#list_data').DataTable({
     drawCallback: function () {
         $('[data-toggle="popover"]').popover({
             html: true,
-            placement: "left"
+            placement: "left",
+            delay: {  
+                hide: "100"
+            }
         });
     }
 });

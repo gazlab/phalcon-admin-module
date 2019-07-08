@@ -29,9 +29,9 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="{{ userSession.avatar is not empty ? userSession.avatar : gravatar.getAvatar(userSession.username) }}"
+                                <img src="{{ userSession.avatar is not empty ? url(userSession.avatar) : gravatar.getAvatar(userSession.username) }}"
                                     class="user-image" alt="User Image">
-                                <span class="hidden-xs">{{ userSession.username }}</span>
+                                <span class="hidden-xs">{{ userSession.name is defined ? userSession.name : userSession.username }}</span>
                             </a>
                             <ul class="dropdown-menu" role="menu" style="width: auto;">
                                 <li><a href="{{ url(router.getModuleName()~'/users/profile') }}"

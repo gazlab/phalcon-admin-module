@@ -31,7 +31,8 @@
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <img src="{{ userSession.avatar is not empty ? url(userSession.avatar) : gravatar.getAvatar(userSession.username) }}"
                                     class="user-image" alt="User Image">
-                                <span class="hidden-xs">{{ userSession.name is defined ? userSession.name : userSession.username }}</span>
+                                <span
+                                    class="hidden-xs">{{ userSession.name is defined ? userSession.name : userSession.username }}</span>
                             </a>
                             <ul class="dropdown-menu" role="menu" style="width: auto;">
                                 <li><a href="{{ url(router.getModuleName()~'/users/profile') }}"
@@ -63,6 +64,11 @@
                     <li>
                         <a href="{{ url(router.getModuleName()~'/'~child.menu[0]) }}">
                             <i class="{{ child.menu['icon'] }}"></i> <span>{{ child.menu['name']|capitalize }}</span>
+                            {% if child.menu['badge'] is defined %}
+                            <span class="pull-right-container">
+                                <small class="label pull-right bg-red">{{ child.menu['badge'] }}</small>
+                            </span>
+                            {% endif %}
                         </a>
                     </li>
                     {% endfor %}
@@ -71,6 +77,11 @@
                         <a href="{{ url(router.getModuleName()~'/'~resource.menu[0]) }}">
                             <i class="{{ resource.menu['icon'] }}"></i>
                             <span>{{ resource.menu['name']|capitalize }}</span>
+                            {% if resource.menu['badge'] is defined %}
+                            <span class="pull-right-container">
+                                <small class="label pull-right bg-red">{{ resource.menu['badge'] }}</small>
+                            </span>
+                            {% endif %}
                         </a>
                     </li>
                     <?php } ?>

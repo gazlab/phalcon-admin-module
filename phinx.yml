@@ -17,7 +17,7 @@ environments:
     development:
         adapter: mysql
         host: localhost
-        name: tlx_development
+        name: imove_dss_library_development
         user: root
         pass: password
         port: 3306
@@ -26,11 +26,12 @@ environments:
         
     testing:
         adapter: mysql
-        host: localhost
-        name: testing_db
-        user: root
-        pass: ''
+        host: q68u8b2buodpme2n.cbetxkdyhwsb.us-east-1.rds.amazonaws.com
+        name: wh7k3kewo8iby8di
+        user: ebo02pz5mz1593mk
+        pass: xiceh910zwgu6y4j
         port: 3306
         charset: utf8
+        table_prefix: ga_
 
 version_order: creation

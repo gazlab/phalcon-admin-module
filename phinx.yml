@@ -13,11 +13,12 @@ environments:
         pass: ''
         port: 3306
         charset: utf8
+        table_prefix: ga_
 
     development:
         adapter: mysql
         host: localhost
-        name: imove_dss_library_development
+        name: klinik_development
         user: root
         pass: password
         port: 3306

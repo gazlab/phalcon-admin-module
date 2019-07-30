@@ -142,6 +142,8 @@ class ResourceController extends ControllerBase
         if (isset($params['attr'])) {
             if (isset($params['attr']['class'])) {
                 $params['attr']['class'] .= ' ' . $element->getAttribute('class');
+            } else {
+                $params['attr']['class'] = $element->getAttribute('class');
             }
             $element->setAttributes($params['attr']);
         }
@@ -166,6 +168,8 @@ class ResourceController extends ControllerBase
         if (isset($params['attr'])) {
             if (isset($params['attr']['class'])) {
                 $params['attr']['class'] .= ' ' . $element->getAttribute('class');
+            } else {
+                $params['attr']['class'] = $element->getAttribute('class');
             }
             $element->setAttributes($params['attr']);
         }

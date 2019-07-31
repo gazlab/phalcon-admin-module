@@ -1,4 +1,5 @@
 <?php
+
 namespace Gazlab\Admin\Controllers;
 
 class SessionController extends ControllerBase
@@ -57,7 +58,7 @@ class SessionController extends ControllerBase
                     if (isset($data[0]['mail'])) {
                         $user->email = $data[0]['mail'];
                     }
-                    $user->profile_id = 2;
+                    $user->profile_id = $this->config->ldap->defaultProfileId;
                     $user->options = json_encode($data[0]);
                 }
                 $user->save();

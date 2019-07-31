@@ -7,12 +7,13 @@ environments:
     default_database: development
     production:
         adapter: mysql
-        host: localhost
-        name: production_db
+        host: 10.60.160.114
+        name: imove_dss_library
         user: root
-        pass: ''
+        pass: telkom135
         port: 3306
         charset: utf8
+        table_prefix: ga_
 
     development:
         adapter: mysql

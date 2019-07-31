@@ -35,16 +35,34 @@ class ResourceController extends ControllerBase
 
         if (count($extras)) {
             foreach ($extras as $extra) {
-                if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), $extra[0])) {
+                if (isset($extra['popover'])) {
                     $extra['name'] = isset($extra['name']) ? $extra['name'] : ucwords(\Phalcon\Text::humanize(\Phalcon\Text::uncamelize($extra[0], '-')));
-                    $elementAttr = [];
-                    if (isset($extra['attr'])) {
-                        foreach ($extra['attr'] as $key => $value) {
-                            $elementAttr[] = $key . '="' . $value . '"';
+                    foreach ($extra['popover'] as $btnAction) {
+                        if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), $btnAction[0])) {
+                            $btnAction['name'] = isset($btnAction['name']) ? $btnAction['name'] : ucwords(\Phalcon\Text::humanize(\Phalcon\Text::uncamelize($btnAction[0], '-')));
+                            $elementAttr = [];
+                            if (isset($btnAction['attr'])) {
+                                foreach ($btnAction['attr'] as $key => $value) {
+                                    $elementAttr[] = $key . '="' . $value . '"';
+                                }
+                            }
+
+                            $btnActions[] = $this->escaper->escapeHtml('<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), $btnAction[0]]))) . '/\'+row.DT_RowId+\'' . $this->escaper->escapeHtml('" title="' . $btnAction['name'] . '" class="btn btn-default" ' .  join(' ', $elementAttr) .  '><i class="' . $btnAction['icon'] . '"></i> ' . $btnAction['name'] . '</a>');
                         }
                     }
+                    $actions[] = '<a tabindex="0" data-trigger="focus" title="' . $extra['name'] . '" class="btn btn-default" data-toggle="popover" data-content="' . $this->escaper->escapeHtml('<div class="btn-group-vertical">') . join('', $btnActions) . $this->escaper->escapeHtml('</div>') . '"><i class="' . $extra['icon'] . '"></i></a>';
+                } else {
+                    if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), $extra[0])) {
+                        $extra['name'] = isset($extra['name']) ? $extra['name'] : ucwords(\Phalcon\Text::humanize(\Phalcon\Text::uncamelize($extra[0], '-')));
+                        $elementAttr = [];
+                        if (isset($extra['attr'])) {
+                            foreach ($extra['attr'] as $key => $value) {
+                                $elementAttr[] = $key . '="' . $value . '"';
+                            }
+                        }
 
-                    $actions[] = '<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), $extra[0]])) . '/\'+row.DT_RowId+\'" title="' . $extra['name'] . '" class="btn btn-default" ' . join(' ', $elementAttr) . '><i class="' . $extra['icon'] . '"></i></a>';
+                        $actions[] = '<a href="' . $this->url->get(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), $extra[0]])) . '/\'+row.DT_RowId+\'" title="' . $extra['name'] . '" class="btn btn-default" ' . join(' ', $elementAttr) . '><i class="' . $extra['icon'] . '"></i></a>';
+                    }
                 }
             }
         }
@@ -93,7 +111,7 @@ class ResourceController extends ControllerBase
         }
 
         $this->table();
-        $this->view->partial($this->config->application->viewsDir . 'contents/table', ['columns' => $this->columns, 'box' => true]);
+        $this->view->partial($this->config->application->viewsDir . 'contents/table', ['columns' => $this->columns, 'box' => true, 'options' => $this->tableOptions]);
     }
 
     public $formAttributes = [];
@@ -101,6 +119,13 @@ class ResourceController extends ControllerBase
     public function setFormAttributes($attributes = [])
     {
         $this->formAttributes = $attributes;
+    }
+
+    public $tableOptions = [];
+
+    public function setTableOptions($options = [])
+    {
+        $this->tableOptions = $options;
     }
 
     // CREATE
@@ -203,7 +228,7 @@ class ResourceController extends ControllerBase
         $value = $params['using'][1];
         $options = [];
         foreach ($params[1] as $option) {
-            $option = (array)$option;
+            $option = (array) $option;
             $element->addOption([$option[$key] => $option[$value]]);
         }
 

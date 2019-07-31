@@ -22,6 +22,13 @@
                     {% endfor %}
                 </tr>
             </thead>
+            <tfoot>
+                <tr>
+                    {% for column in columns %}
+                    <td>{{ column['footer'] is defined ? column['footer'] : null }}</td>
+                    {% endfor %}
+                </tr>
+            </tfoot>
         </table>
         {% if box is defined and box is true %}
     </div>

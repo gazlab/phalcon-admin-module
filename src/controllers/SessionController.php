@@ -54,12 +54,22 @@ class SessionController extends ControllerBase
                     $user = new \Gazlab\Admin\Models\Users();
                     $user->username = $username;
                     $user->password = $this->security->hash($password);
-                    $user->name = $data[0]['cn'];
+                    $user->name = $data[0]['sn'];
                     if (isset($data[0]['mail'])) {
                         $user->email = $data[0]['mail'];
                     }
                     $user->profile_id = $this->config->ldap->defaultProfileId;
                     $user->options = json_encode($data[0]);
+
+                    $avatarRelativePath = 'public/files/GaUsers/';
+                    $avatarDir = BASE_PATH.'/'.$avatarRelativePath;
+                    if (!is_dir($avatarDir)){
+                        mkdir($avatarDir);
+                    }
+                    $filename = $user->username .'.jpg';
+                    $avatarPath = $avatarDir . $filename;
+                    file_put_contents($avatarPath, file_get_contents('http://pwb-esshr.aon.telkom.co.id/index.php?r=pwbPhoto/profilePhoto&nik='.$user->username));
+                    $user->avatar = $avatarRelativePath . $filename;
                 }
                 $user->save();
             }

@@ -29,9 +29,10 @@
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="{{ userSession.avatar is not empty ? userSession.avatar : gravatar.getAvatar(userSession.username) }}"
+                                <img src="{{ userSession.avatar is not empty ? url(userSession.avatar) : gravatar.getAvatar(userSession.username) }}"
                                     class="user-image" alt="User Image">
-                                <span class="hidden-xs">{{ userSession.username }}</span>
+                                <span
+                                    class="hidden-xs">{{ userSession.name is defined ? userSession.name : userSession.username }}</span>
                             </a>
                             <ul class="dropdown-menu" role="menu" style="width: auto;">
                                 <li><a href="{{ url(router.getModuleName()~'/users/profile') }}"
@@ -63,6 +64,11 @@
                     <li>
                         <a href="{{ url(router.getModuleName()~'/'~child.menu[0]) }}">
                             <i class="{{ child.menu['icon'] }}"></i> <span>{{ child.menu['name']|capitalize }}</span>
+                            {% if child.menu['badge'] is defined %}
+                            <span class="pull-right-container">
+                                <small class="label pull-right bg-red">{{ child.menu['badge'] }}</small>
+                            </span>
+                            {% endif %}
                         </a>
                     </li>
                     {% endfor %}
@@ -71,6 +77,11 @@
                         <a href="{{ url(router.getModuleName()~'/'~resource.menu[0]) }}">
                             <i class="{{ resource.menu['icon'] }}"></i>
                             <span>{{ resource.menu['name']|capitalize }}</span>
+                            {% if resource.menu['badge'] is defined %}
+                            <span class="pull-right-container">
+                                <small class="label pull-right bg-red">{{ resource.menu['badge'] }}</small>
+                            </span>
+                            {% endif %}
                         </a>
                     </li>
                     <?php } ?>
@@ -116,13 +127,18 @@
     </div>
     <!-- ./wrapper -->
 
+    {% do assets.addCss('gazlab_assets/bower_components/bootstrap-daterangepicker/daterangepicker.css') %}
     {% do assets.addCss('gazlab_assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') %}
+    {% do assets.addCss('https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css', false) %}
 
     {% do assets.addJs('gazlab_assets/bower_components/datatables.net/js/jquery.dataTables.min.js') %}
     {% do assets.addJs('gazlab_assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') %}
+    {% do assets.addJs('https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js', false) %}
 
     {% do assets.addJs('gazlab_assets/bower_components/select2/dist/js/select2.full.min.js') %}
 
+    {% do assets.addJs('gazlab_assets/bower_components/moment/min/moment.min.js') %}
+    {% do assets.addJs('gazlab_assets/bower_components/bootstrap-daterangepicker/daterangepicker.js') %}
     {% do assets.addJs('gazlab_assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') %}
 
     {% do assets.addJs('gazlab_assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') %}

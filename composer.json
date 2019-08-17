@@ -1,0 +1,21 @@
+{
+    "name": "gazlab/phalcon-admin-module",
+    "description": "Admin Module for PhalconPHP module project.",
+    "type": "library, project",
+    "keywords": ["admin", "phalcon", "module", "dashboard", "backend"],
+    "require": {
+        "almasaeed2010/adminlte": "^2.4"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sony Kusyana",
+            "email": "sony.kusyana@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Gazlab\\Admin\\": "src/"
+        }
+    }
+}

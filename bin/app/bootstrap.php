@@ -2,6 +2,7 @@
 
 use Phalcon\Di\FactoryDefault\Cli as CliDi;
 use Phalcon\Cli\Console as ConsoleApp;
+use Phalcon\Cop\Parser;
 
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
@@ -35,17 +36,21 @@ $console = new ConsoleApp($di);
 /**
  * Process the console arguments
  */
-$arguments = [];
+$parser = new Parser();
+$arguments = $parser->parse($argv);
+$arguments['task'] = $arguments[0];
+$arguments['action'] = $arguments[1];
+$arguments['params'] = $arguments;
 
-foreach ($argv as $k => $arg) {
-    if ($k == 1) {
-        $arguments['task'] = $arg;
-    } elseif ($k == 2) {
-        $arguments['action'] = $arg;
-    } elseif ($k >= 3) {
-        $arguments['params'][] = $arg;
-    }
-}
+// foreach ($argv as $k => $arg) {
+//     if ($k == 1) {
+//         $arguments['task'] = $arg;
+//     } elseif ($k == 2) {
+//         $arguments['action'] = $arg;
+//     } elseif ($k >= 3) {
+//         $arguments['params'][] = $arg;
+//     }
+// }
 
 try {
 

@@ -2,7 +2,6 @@
 
 use Phalcon\Di\FactoryDefault\Cli as CliDi;
 use Phalcon\Cli\Console as ConsoleApp;
-use Phalcon\Cop\Parser;
 
 define('BASE_PATH', dirname(__DIR__));
 define('APP_PATH', BASE_PATH . '/app');
@@ -36,10 +35,13 @@ $console = new ConsoleApp($di);
 /**
  * Process the console arguments
  */
-$parser = new Parser();
+$parser = new \Phalcon\Cop\Parser();
 $arguments = $parser->parse($argv);
+
 $arguments['task'] = $arguments[0];
-$arguments['action'] = $arguments[1];
+if (isset($arguments[1])) {
+    $arguments['action'] = $arguments[1];
+}
 $arguments['params'] = $arguments;
 
 // foreach ($argv as $k => $arg) {
@@ -71,7 +73,6 @@ try {
     if (isset($config["printNewLine"]) && $config["printNewLine"]) {
         echo PHP_EOL;
     }
-
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     echo $e->getTraceAsString() . PHP_EOL;

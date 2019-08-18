@@ -6,3 +6,5 @@ $loader->registerDirs([
     APP_PATH . '/models'
 ]);
 $loader->register();
+
+require_once BASE_PATH . '/../../../../vendor/autoload.php';

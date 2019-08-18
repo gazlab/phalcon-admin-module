@@ -10,6 +10,6 @@ class InstallTask extends TaskBase
             $moduleName = $params['name'];
         }
 
-        echo $moduleName;
+        
     }
 }

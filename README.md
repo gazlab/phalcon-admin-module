@@ -12,18 +12,22 @@ These instructions will get you a copy of the project up and running on your loc
 
 What things you need to install the software and how to install them
 
+#### Create your modular project use phalcon-devtools :
 ```
-Give examples
+$ phalcon project foo --type=modules
+$ cd foo/
+```
+#### Use Phinx for migration :
+```
+$ composer require --dev robmorgan/phinx
 ```
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+#### Via Composer
 
 ```
-Give the example
+composer require gazlab/phalcon-admin-module
 ```
 
 And repeat

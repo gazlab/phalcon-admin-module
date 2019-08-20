@@ -40,10 +40,18 @@ class Module implements ModuleDefinitionInterface
          * Try to load local configuration
          */
         if (file_exists(__DIR__ . '/config/config.php')) {
-            
+
             $config = $di['config'];
-            
+
             $override = new Config(include __DIR__ . '/config/config.php');
+
+            if ($config instanceof Config) {
+                $config->merge($override);
+            } else {
+                $config = $override;
+            }
+
+            $override = new Config(include APP_PATH . '/modules/' . $di['router']->getModuleName() . '/config/gazlab.php');
 
             if ($config instanceof Config) {
                 $config->merge($override);
@@ -55,12 +63,14 @@ class Module implements ModuleDefinitionInterface
         /**
          * Setting up the view component
          */
-        $di['view'] = function () {
+        $di['view'] = function () use ($di) {
             $config = $this->getConfig();
 
             $view = new View();
-            $view->setViewsDir($config->get('application')->viewsDir);
-            
+            $view->setViewsDir(APP_PATH . '/modules/' . $di['router']->getModuleName() . '/views/');
+            $view->setMainView($config->application->viewsDir . 'index');
+            $view->setLayoutsDir($config->application->viewsDir . 'layouts/');
+
             $view->registerEngines([
                 '.volt'  => 'voltShared',
                 '.phtml' => PhpEngine::class

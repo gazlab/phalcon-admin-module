@@ -1,0 +1,9 @@
+<?php
+
+class $ClassName extends \Gazlab\Admin\Controllers\ResourceController
+{
+    public $menu = [
+        '$ResourceName',
+        'icon' => 'fa fa-list'
+    ];
+}

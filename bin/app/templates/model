@@ -1,0 +1,10 @@
+<?php
+
+class $ClassName extends \Gazlab\Admin\Models\ModelBase
+{
+    public function initialize()
+    {
+        $this->setSource('$TableName');
+        parent::initialize();
+    }
+}

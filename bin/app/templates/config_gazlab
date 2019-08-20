@@ -1,0 +1,15 @@
+<?php
+
+return [
+    'application' => [
+        'baseUri'        => '/$BaseUri/',
+    ],
+    'gazlab' => [
+        'title' => 'Gazlab Admin',
+        'logo' => [
+            'lg' => '<b>Gazlab</b>Admin',
+            'sm' => '<b>GA</b>Z',
+        ],
+        'footer' => '<strong>Copyright &copy; 2019 Gazlab Admin.</strong> All rights reserved.'
+    ]
+];

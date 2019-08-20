@@ -26,6 +26,7 @@ class Users extends AbstractSeed
         $security = new Security();
         $data = [
             [
+                'profile_id' => 1,
                 'username'    => 'admin',
                 'password'  => $security->hash('admin')
             ]

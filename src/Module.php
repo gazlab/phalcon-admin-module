@@ -127,14 +127,13 @@ class Module implements ModuleDefinitionInterface
 
         $di->setShared('gravatar', function () {
             // Get Gravatar instance
-            $gravatar = new Gravatar([
-                'use_https'     => true
-            ]);
+            $gravatar = new Gravatar([]);
 
             // Setting default image, maximum size and maximum allowed Gravatar rating
-            $gravatar->setDefaultImage('retro')
+            $gravatar->setDefaultImage('mm')
                 ->setSize(160)
-                ->setRating(Gravatar::RATING_PG);
+                ->setRating(Gravatar::RATING_G)
+                ->enableSecureURL();
 
             return $gravatar;
         });

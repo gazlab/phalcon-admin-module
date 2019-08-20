@@ -130,7 +130,7 @@ class Module implements ModuleDefinitionInterface
             $gravatar = new Gravatar([]);
 
             // Setting default image, maximum size and maximum allowed Gravatar rating
-            $gravatar->setDefaultImage('mm')
+            $gravatar->setDefaultImage('retro')
                 ->setSize(160)
                 ->setRating(Gravatar::RATING_G)
                 ->enableSecureURL();

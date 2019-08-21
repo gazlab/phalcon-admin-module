@@ -26,43 +26,14 @@
                     <ul class="nav navbar-nav">
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="../../dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                <img src="{{ gravatar.getAvatar(userSession.username) }}" class="user-image" alt="{{ userSession.username }}">
+                                <span
+                                    class="hidden-xs">{{ userSession.name is defined ? userSession.name : userSession.username }}</span>
                             </a>
-                            <ul class="dropdown-menu">
-                                <!-- User image -->
-                                <li class="user-header">
-                                    <img src="../../dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-
-                                    <p>
-                                        Alexander Pierce - Web Developer
-                                        <small>Member since Nov. 2012</small>
-                                    </p>
-                                </li>
-                                <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="row">
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Followers</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Sales</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Friends</a>
-                                        </div>
-                                    </div>
-                                    <!-- /.row -->
-                                </li>
-                                <!-- Menu Footer-->
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                                    </div>
-                                </li>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('session/profile') }}">Profile</a></li>
+                                <li class="divider"></li>
+                                <li><a href="{{ url('session/signOut') }}">Sign Out</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -296,44 +267,7 @@
 
             <!-- Main content -->
             <section class="content">
-
-                <!-- Default box -->
-                <div class="box">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Title</h3>
-
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
-                                title="Collapse">
-                                <i class="fa fa-minus"></i></button>
-                            <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip"
-                                title="Remove">
-                                <i class="fa fa-times"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        Pace loading works automatically on page. You can still implement it with ajax requests by
-                        adding this js:
-                        <br /><code>$(document).ajaxStart(function() { Pace.restart(); });</code>
-                        <br />
-                        <div class="row">
-                            <div class="col-xs-12 text-center">
-                                <button type="button" class="btn btn-default btn-lrg ajax" title="Ajax Request">
-                                    <i class="fa fa-spin fa-refresh"></i>&nbsp; Get External Content
-                                </button>
-                            </div>
-                        </div>
-                        <div class="ajax-content">
-                        </div>
-                    </div>
-                    <!-- /.box-body -->
-                    <div class="box-footer">
-                        Footer
-                    </div>
-                    <!-- /.box-footer-->
-                </div>
-                <!-- /.box -->
-
+                {{ content() }}
             </section>
             <!-- /.content -->
         </div>
@@ -345,6 +279,8 @@
     </div>
 
     {% do assets.addCss('../assets/adminlte/dist/css/skins/_all-skins.min.css') %}
+
+    {% do assets.addInlineCss(view.getPartial(view.getLayoutsDir()~'_private.css')) %}
 
     {% do assets.addJs('../assets/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') %}
     {% do assets.addJs('../assets/adminlte/bower_components/fastclick/lib/fastclick.js') %}

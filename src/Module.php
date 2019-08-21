@@ -8,7 +8,8 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Config;
-
+use Phalcon\Avatar\Gravatar;
+use Phalcon\Flash\Session as FlashSession;
 
 class Module implements ModuleDefinitionInterface
 {
@@ -91,6 +92,29 @@ class Module implements ModuleDefinitionInterface
             unset($config['adapter']);
 
             return new $dbAdapter($dbConfig);
+        };
+
+        $di['gravatar'] = function () {
+            // Get Gravatar instance
+            $gravatar = new Gravatar(
+                []
+            );
+
+            // Setting default image, maximum size and maximum allowed Gravatar rating
+            $gravatar->setDefaultImage('retro')
+                ->setSize(160)
+                ->enableSecureURL();
+
+            return $gravatar;
+        };
+
+        $di['flashSession'] = function () {
+            return new FlashSession([
+                'error'   => 'alert alert-danger',
+                'success' => 'alert alert-success',
+                'notice'  => 'alert alert-info',
+                'warning' => 'alert alert-warning'
+            ]);
         };
     }
 }

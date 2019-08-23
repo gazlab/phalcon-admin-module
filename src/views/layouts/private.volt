@@ -26,7 +26,8 @@
                     <ul class="nav navbar-nav">
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="{{ gravatar.getAvatar(userSession.username) }}" class="user-image" alt="{{ userSession.username }}">
+                                <img src="{{ gravatar.getAvatar(userSession.username) }}" class="user-image"
+                                    alt="{{ userSession.username }}">
                                 <span
                                     class="hidden-xs">{{ userSession.name is defined ? userSession.name : userSession.username }}</span>
                             </a>
@@ -255,7 +256,7 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Pace page
+                    {{ menu['name'] }}
                     <small>Loading example</small>
                 </h1>
                 <ol class="breadcrumb">
@@ -267,6 +268,7 @@
 
             <!-- Main content -->
             <section class="content">
+                {{ flashSession.output() }}
                 {{ content() }}
             </section>
             <!-- /.content -->

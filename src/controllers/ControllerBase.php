@@ -10,6 +10,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
     public function initialize()
     {
+        $this->tag->setTitleSeparator(' | ');
         $this->tag->setTitle($this->config->gazlab->title);
 
         if ($this->session->has('uId')) {
@@ -19,8 +20,15 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             $this->userSession = $user;
         }
 
+        if (!isset($this->menu['name'])) {
+            $this->menu['name'] = ucwords(\Phalcon\Text::humanize($this->menu[0]));
+        }
+
+        $this->tag->prependTitle($this->menu['name']);
+
         $this->view->setVars([
-            'userSession' => $this->userSession
+            'userSession' => $this->userSession,
+            'menu' => $this->menu
         ]);
     }
 

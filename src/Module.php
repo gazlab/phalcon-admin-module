@@ -24,7 +24,8 @@ class Module implements ModuleDefinitionInterface
 
         $loader->registerNamespaces([
             'Gazlab\Admin\Controllers' => __DIR__ . '/controllers/',
-            'Gazlab\Admin\Models'      => __DIR__ . '/models/'
+            'Gazlab\Admin\Models'      => __DIR__ . '/models/',
+            'Gazlab'      => __DIR__ . '/libraries/Gazlab/'
         ]);
 
         $loader->register();

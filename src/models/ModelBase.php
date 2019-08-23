@@ -18,5 +18,9 @@ class ModelBase extends \Phalcon\Mvc\Model
                 ]
             )
         );
+
+        $this->addBehavior(
+            new \Gazlab\LogActivities()
+        );
     }
 }

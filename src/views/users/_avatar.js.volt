@@ -1,0 +1,1 @@
+return data ? "<img src=\"" + data + "\" class=\"img-circle\" alt=\"" + row.username + "\">" : null;

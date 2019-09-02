@@ -37,7 +37,10 @@ class SessionController extends ControllerBase
             return $this->response->redirect();
         }
 
-        view: $this->view->pick($this->config->application->viewsDir . 'session/signIn');
+        
+        view: 
+        $this->tag->prependTitle('Sign In');
+        $this->view->pick($this->config->application->viewsDir . 'session/signIn');
     }
 
     public function signOutAction()
@@ -47,45 +50,5 @@ class SessionController extends ControllerBase
         $this->session->destroy();
 
         return $this->response->redirect();
-    }
-
-    public function profileAction()
-    {
-        if ($this->request->isPost()) {
-            $this->userSession->username = $this->request->getPost('username');
-            if ($this->request->hasPost('new_password') && !empty($this->request->getPost('new_password'))) {
-                if (!$this->security->checkHash($this->request->getPost('old_password'), $this->userSession->password)) {
-                    $this->flash->error('Wrong old password.');
-                    goto view;
-                }
-
-                if ($this->request->getPost('new_password') !== $this->request->getPost('confirm_password')) {
-                    $this->flash->error('Wrong comfirm password.');
-                    goto view;
-                }
-
-                $this->userSession->password = $this->security->hash($this->request->getPost('new_password'));
-            }
-
-            if (!$this->userSession->save()) {
-                foreach ($this->userSession->getMessages() as $message) {
-                    $this->flash->error($message);
-                }
-            } else {
-                $this->flashSession->success('Data has been save');
-                return $this->response->redirect(join('/', [$this->router->getControllerName(), $this->router->getActionName()]));
-            }
-        }
-
-        view: $this->view->pick($this->config->application->viewsDir . 'session/profile');
-    }
-
-    public function historyAction()
-    {
-        $this->dispatcher->forward([
-            'controller' => 'log-activities',
-            'action' => 'index',
-            'params' => ['ga_users', $this->dispatcher->getParams()[0]]
-        ]);
     }
 }

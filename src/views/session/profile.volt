@@ -3,7 +3,7 @@
     <div class="box-header with-border">
         <h3 class="box-title"></h3>
         <div class="box-tools pull-right">
-            <a href="{{ url([router.getControllerName(), 'history', session.get('uId')]|join('/')) }}" class="btn btn-box-tool"
+            <a href="{{ url([router.getControllerName(), 'profileHistory']|join('/')) }}" class="btn btn-box-tool"
                 title="History"><i class="fa fa-history"></i></a>
         </div>
     </div>
@@ -15,7 +15,7 @@
             <label for="avatar" class="col-sm-2 control-label">Avatar</label>
 
             <div class="col-sm-10">
-                {{ userSession.avatar is not null ? image('../'~userSession.avatar, 'class': 'img-responsive img-thumbnail', 'alt': userSession.username) : image(gravatar.getAvatar(userSession.username), 'class': 'img-responsive img-thumbnail', 'alt': userSession.username) }}
+                {{ image(userSession.avatar, 'class': 'img-responsive img-thumbnail', 'alt': userSession.username) }}
                 {{ file_field('avatar', 'class': 'form-control') }}
             </div>
         </div>

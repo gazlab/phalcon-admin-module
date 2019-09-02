@@ -2,6 +2,7 @@
 
 namespace Gazlab\Admin;
 
+use Acl\Acl;
 use Phalcon\DiInterface;
 use Phalcon\Loader;
 use Phalcon\Mvc\View;
@@ -9,6 +10,7 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Config;
 use Phalcon\Avatar\Gravatar;
+use Phalcon\Breadcrumbs;
 use Phalcon\Flash\Session as FlashSession;
 
 class Module implements ModuleDefinitionInterface
@@ -25,7 +27,12 @@ class Module implements ModuleDefinitionInterface
         $loader->registerNamespaces([
             'Gazlab\Admin\Controllers' => __DIR__ . '/controllers/',
             'Gazlab\Admin\Models'      => __DIR__ . '/models/',
-            'Gazlab'      => __DIR__ . '/libraries/Gazlab/'
+            'Gazlab'      => __DIR__ . '/libraries/Gazlab/',
+            'Acl'      => __DIR__ . '/libraries/Acl/'
+        ]);
+
+        $loader->registerDirs([
+            APP_PATH . '/modules/' . $di['router']->getModuleName() . '/controllers/'
         ]);
 
         $loader->register();
@@ -116,6 +123,29 @@ class Module implements ModuleDefinitionInterface
                 'notice'  => 'alert alert-info',
                 'warning' => 'alert alert-warning'
             ]);
+        };
+
+        $di['AclResources'] = function () {
+            $pr = [];
+            if (is_readable(__DIR__ . '/config/privateResources.php')) {
+                $pr = include __DIR__ . '/config/privateResources.php';
+            }
+            return $pr;
+        };
+
+        $di['acl'] = function () {
+            $acl = new Acl();
+            $pr = $this->getShared('AclResources')->privateResources->toArray();
+            $acl->addPrivateResources($pr);
+            return $acl;
+        };
+
+        $di['breadcrumbs'] = function () {
+            $breadcrumbs = new Breadcrumbs;
+            $breadcrumbs->setSeparator('');
+            $breadcrumbs->setLastNotLinked(true);
+
+            return $breadcrumbs;
         };
     }
 }

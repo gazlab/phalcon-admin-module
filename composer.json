@@ -1,6 +1,6 @@
 {
     "name": "gazlab/phalcon-admin-module",
-    "description": "Admin Module for PhalconPHP module project.",
+    "descriptione": "Admin Module for PhalconPHP module project.",
     "type": "library",
     "keywords": ["admin", "phalcon", "module", "dashboard", "backend"],
     "require": {

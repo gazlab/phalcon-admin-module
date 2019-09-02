@@ -2,19 +2,29 @@
 
 namespace Gazlab\Admin\Controllers;
 
-use Gazlab\Admin\Models\LogActivity;
-
-class LogActivitiesController extends ControllerBase
+class LogActivitiesController extends ResourceController
 {
-    public function indexAction($tableName, $rowId)
+    public function queryGetAll()
     {
-        $logActivities = LogActivity::find([
-            "table_name = ?0 AND row_id = ?1",
-            'bind' => [
-                $tableName,
-                $rowId
-            ]
-        ])->toArray();
-        print_r($logActivities);
+        return $this->modelsManager->createBuilder()
+            ->columns([
+                'l.*',
+                'l.id',
+                'l.created_at',
+                'u.username',
+                'l.event_type'
+            ])
+            ->addFrom('Gazlab\Admin\Models\LogActivity', 'l')
+            ->join('Gazlab\Admin\Models\User', 'u.id = l.user_id', 'u')
+            ->where("table_name = :table_name:", ['table_name' => $this->dispatcher->getParams()[0]])
+            ->andWhere("row_id = :row_id:", ['row_id' => $this->dispatcher->getParams()[1]]);
+    }
+
+    public function table()
+    {
+        $this->column(['l.created_at', 'header' => 'At']);
+        $this->column(['event_type', 'header' => 'Event Action']);
+        $this->column(['username', 'header' => 'By']);
+        
     }
 }

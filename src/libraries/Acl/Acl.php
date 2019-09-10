@@ -184,7 +184,6 @@ class Acl extends Component
 
         // Grant access to private area to role Users
         foreach ($profiles as $profile) {
-
             // Grant permissions in "permissions" model
             foreach ($profile->getPermissions() as $permission) {
                 $acl->allow($profile->name, $permission->resource, $permission->action);

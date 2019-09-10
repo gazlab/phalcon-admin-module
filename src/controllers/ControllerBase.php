@@ -9,7 +9,7 @@ use Phalcon\Session\Bag;
 
 class ControllerBase extends \Phalcon\Mvc\Controller
 {
-    public $userSession, $area, $menu, $resource, $resources;
+    public $userSession, $area, $resource, $resources;
 
     public function setArea($area)
     {
@@ -31,11 +31,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
             $this->resources = $this->getResources();
 
-            $gazlabOptions = new Bag('gazlabOptions');
-            $gazlabOptions->setDI($this->di);
-
             $this->view->setVars([
-                // 'gazlabOptions' => $gazlabOptions,
                 'userSession' => $this->userSession,
                 'resources' => $this->resources,
                 'currentResource' => $this->resource

@@ -11,7 +11,10 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Config;
 use Phalcon\Avatar\Gravatar;
 use Phalcon\Breadcrumbs;
+use Phalcon\Events\Event;
+use Phalcon\Events\Manager;
 use Phalcon\Flash\Session as FlashSession;
+use Phalcon\Mvc\Dispatcher;
 
 class Module implements ModuleDefinitionInterface
 {
@@ -129,13 +132,23 @@ class Module implements ModuleDefinitionInterface
             $pr = [];
             if (is_readable(__DIR__ . '/config/privateResources.php')) {
                 $pr = include __DIR__ . '/config/privateResources.php';
+                $pr = $pr->privateResources->toArray();
             }
+
+            $sql = 'SELECT resource, action FROM ga_permissions GROUP BY resource, action';
+            $permissions = $this->getShared('db')->fetchAll($sql);
+            if (count($permissions) > 0) {
+                foreach ($permissions as $permission) {
+                    $pr[$permission['resource']][] = $permission['action'];
+                }
+            }
+
             return $pr;
         };
 
         $di['acl'] = function () {
             $acl = new Acl();
-            $pr = $this->getShared('AclResources')->privateResources->toArray();
+            $pr = $this->getShared('AclResources');
             $acl->addPrivateResources($pr);
             return $acl;
         };
@@ -146,6 +159,25 @@ class Module implements ModuleDefinitionInterface
             $breadcrumbs->setLastNotLinked(true);
 
             return $breadcrumbs;
+        };
+
+        $di['dispatcher'] = function () {
+            $pr = include __DIR__ . '/config/privateResources.php';
+            $eventsManager = new Manager();
+            $eventsManager->attach(
+                'dispatch:beforeDispatchLoop',
+                function (Event $event, $dispatcher) use ($pr) {
+                    $pr = $pr->privateResources->toArray();
+                    $pr['index'] = [];
+                    $pr['session'] = [];
+                    if (!in_array($dispatcher->getControllerName(), array_keys($pr))) {
+                        $dispatcher->setNamespaceName('');
+                    }
+                }
+            );
+            $dispatcher = new Dispatcher();
+            $dispatcher->setEventsManager($eventsManager);
+            return $dispatcher;
         };
     }
 }

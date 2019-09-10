@@ -78,6 +78,19 @@ class Module implements ModuleDefinitionInterface
         $di['view'] = function () use ($di) {
             $config = $this->getConfig();
 
+            $eventsManager = new Manager();
+            $eventsManager->attach(
+                'view:afterRender',
+                function (Event $event, $view) {
+                    $sourceHtml = $view->getContent();
+                    $parser = \WyriHaximus\HtmlCompress\Factory::construct();
+                    $compressedHtml = $parser->compress($sourceHtml);
+                    $view->setContent(
+                        (string) $compressedHtml
+                    );
+                }
+            );
+
             $view = new View();
             $view->setViewsDir(APP_PATH . '/modules/' . $di['router']->getModuleName() . '/views/');
             $view->setMainView($config->application->viewsDir . 'index');
@@ -87,6 +100,8 @@ class Module implements ModuleDefinitionInterface
                 '.volt'  => 'voltShared',
                 '.phtml' => PhpEngine::class
             ]);
+
+            $view->setEventsManager($eventsManager);
 
             return $view;
         };

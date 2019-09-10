@@ -26,8 +26,7 @@
                     <ul class="nav navbar-nav">
                         <li class="dropdown user user-menu">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                <img src="{{ userSession.avatar }}" class="user-image"
-                                    alt="{{ userSession.username }}">
+                                <img src="{{ userSession.avatar }}" class="user-image" alt="{{ userSession.username }}">
                                 <span
                                     class="hidden-xs">{{ userSession.name is defined ? userSession.name : userSession.username }}</span>
                             </a>
@@ -104,12 +103,8 @@
         </footer>
     </div>
 
-    {% do assets.addCss('../assets/adminlte/dist/css/skins/_all-skins.min.css') %}
-
+    {% do assets.addCss('../assets/adminlte/bower_components/select2/dist/css/select2.min.css') %}
     {% do assets.addInlineCss(view.getPartial(view.getLayoutsDir()~'_private.css')) %}
 
-    {% do assets.addJs('../assets/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') %}
-    {% do assets.addJs('../assets/adminlte/bower_components/fastclick/lib/fastclick.js') %}
-    {% do assets.addJs('../assets/adminlte/dist/js/adminlte.min.js') %}
-
+    {% do assets.addJs('../assets/adminlte/bower_components/select2/dist/js/select2.full.min.js') %}
     {% do assets.addInlineJs(view.getPartial(view.getLayoutsDir()~'_private.js')) %}

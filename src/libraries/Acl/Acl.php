@@ -198,6 +198,7 @@ class Acl extends Component
                 $acl->allow($profile->name, 'users', 'create');
                 $acl->allow($profile->name, 'users', 'update');
                 $acl->allow($profile->name, 'users', 'delete');
+                $acl->allow($profile->name, 'users', 'history');
             }
             // $acl->allow($profile->name, 'session', 'profile');
         }

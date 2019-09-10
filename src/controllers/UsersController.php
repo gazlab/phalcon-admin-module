@@ -18,13 +18,28 @@ class UsersController extends ResourceController
             ->from('Gazlab\Admin\Models\User');
     }
 
+    public function queryGetOne()
+    {
+        return User::findFirst($this->dispatcher->getParams()[0]);
+    }
+
     public function table()
     {
         $this->column(['avatar', 'header' => '', 'dataTable' => ['searchable' => false, 'orderable' => false, 'render' => $this->view->getPartial($this->config->application->viewsDir . 'users/_avatar.js')]]);
         $this->column(['username']);
         $this->column(['blocked', 'header' => 'Active', 'dataTable' => ['searchable' => false, 'orderable' => false, 'render' => 'return data == 0 ? "<i class=\"fa fa-check-circle text-success\" title=\"Active\"></i>" : "<i class=\"fa fa-close text-danger\"></i>"']]);
-        
+
         $this->actions();
+    }
+
+    public function form()
+    {
+        $this->fileField(['avatar']);
+        $this->textField(['username']);
+        $this->selectField(['blocked', ['Yes', 'No'], 'label' => 'Active']);
+
+        $this->passwordField(['reset_password']);
+        $this->passwordField(['confirm_password']);
     }
 
     public function profileAction()

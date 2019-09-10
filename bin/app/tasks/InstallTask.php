@@ -20,11 +20,13 @@ class InstallTask extends TaskBase
         $moduleDir = $modulesDir . $moduleName;
         if (!is_dir($moduleDir)) {
             $this->cmd('mkdir ' . $moduleDir);
+            echo 'created ' . $moduleDir . PHP_EOL;
         }
         // Config Dir
         $configDir = $moduleDir . '/config';
         if (!is_dir($configDir)) {
             $this->cmd('mkdir ' . $configDir);
+            echo 'created ' . $configDir . PHP_EOL;
         }
         $configGazlab = $configDir . '/gazlab.php';
         if (!file_exists($configGazlab)) {
@@ -38,23 +40,27 @@ class InstallTask extends TaskBase
         $controllersDir = $moduleDir . '/controllers';
         if (!is_dir($controllersDir)) {
             $this->cmd('mkdir ' . $controllersDir);
+            echo 'created ' . $controllersDir . PHP_EOL;
         }
 
         // Models Dir
         $modelsDir = $moduleDir . '/models';
         if (!is_dir($modelsDir)) {
             $this->cmd('mkdir ' . $modelsDir);
+            echo 'created ' . $modelsDir . PHP_EOL;
         }
 
         // Assets Dir
         $assetsDir = 'public/assets';
         if (!is_dir($assetsDir)) {
             $this->cmd('mkdir ' . $assetsDir);
+            echo 'created ' . $assetsDir . PHP_EOL;
         }
         // Link AdminLTE
         $adminlteLink = 'public/assets/adminlte';
         if (!file_exists($adminlteLink)) {
             $this->cmd('ln -s "../../vendor/almasaeed2010/adminlte" ' . $adminlteLink);
+            echo 'created ' . $adminlteLink . PHP_EOL;
         }
 
         // Migrate

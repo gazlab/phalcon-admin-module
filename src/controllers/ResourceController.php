@@ -4,10 +4,24 @@ namespace Gazlab\Admin\Controllers;
 
 use Cake\Utility\Inflector;
 use DataTables\DataTable;
+use Phalcon\Forms\Element\File;
+use Phalcon\Forms\Element\Password;
+use Phalcon\Forms\Element\Select;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
 
 class ResourceController extends ControllerBase
 {
     private $tableColumns = [];
+    private $formFields = [];
+    private $modelName;
+
+    public function initialize()
+    {
+        $this->modelName = \Phalcon\Text::camelize(Inflector::singularize($this->router->getControllerName()));
+
+        parent::initialize();
+    }
 
     public function column($params)
     {
@@ -35,9 +49,8 @@ class ResourceController extends ControllerBase
 
     public function queryGetAll()
     {
-        $modelName = \Phalcon\Text::camelize(Inflector::singularize($this->router->getControllerName()));
         return $this->modelsManager->createBuilder()
-            ->from($modelName);
+            ->from($this->modelName);
     }
 
     public function indexAction()
@@ -51,10 +64,12 @@ class ResourceController extends ControllerBase
 
             $columns = [];
             foreach ($this->tableColumns as $column) {
-                if (isset($column['alias'])) {
-                    array_push($columns, [$column[0], 'alias' => $column['alias']]);
-                } else {
-                    array_push($columns, $column[0]);
+                if (isset($column[0])) {
+                    if (isset($column['alias'])) {
+                        array_push($columns, [$column[0], 'alias' => $column['alias']]);
+                    } else {
+                        array_push($columns, $column[0]);
+                    }
                 }
             }
 
@@ -63,5 +78,114 @@ class ResourceController extends ControllerBase
         }
 
         $this->view->partial($this->config->application->viewsDir . 'contents/table', ['title' => 'List Data', 'columns' => $this->tableColumns]);
+    }
+
+    public function createAction()
+    {
+        $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'New', 'fields' => $this->formFields]);
+    }
+
+    public function queryGetOne()
+    {
+        $modelName = $this->modelName;
+        return $modelName::findFirst($this->dispatcher->getParams()[0]);
+    }
+
+    public function textField($params)
+    {
+        $element = new Text($params[0]);
+        $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
+        $element->setLabel($label);
+        $element->setAttribute('class', 'form-control');
+        if (isset($params['attr'])) {
+            if (isset($params['attr']['class'])) {
+                $params['attr']['class'] .= ' ' . $element->getAttribute('class');
+            } else {
+                $params['attr']['class'] = $element->getAttribute('class');
+            }
+            $element->setAttributes($params['attr']);
+        }
+        array_push($this->formFields, $element);
+    }
+
+    public function fileField($params)
+    {
+        $element = new File($params[0]);
+        $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
+        $element->setLabel($label);
+        $element->setAttribute('class', 'form-control');
+        if (isset($params['attr'])) {
+            if (isset($params['attr']['class'])) {
+                $params['attr']['class'] .= ' ' . $element->getAttribute('class');
+            } else {
+                $params['attr']['class'] = $element->getAttribute('class');
+            }
+            $element->setAttributes($params['attr']);
+        }
+        array_push($this->formFields, $element);
+    }
+
+    public function passwordField($params)
+    {
+        $element = new Password($params[0]);
+        $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
+        $element->setLabel($label);
+        $element->setAttribute('class', 'form-control');
+        if (isset($params['attr'])) {
+            if (isset($params['attr']['class'])) {
+                $params['attr']['class'] .= ' ' . $element->getAttribute('class');
+            } else {
+                $params['attr']['class'] = $element->getAttribute('class');
+            }
+            $element->setAttributes($params['attr']);
+        }
+        array_push($this->formFields, $element);
+    }
+
+    public function selectField($params)
+    {
+        $name = $params[0];
+        unset($params[0]);
+        $options = $params[1];
+        unset($params[1]);
+        $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
+        unset($params['label']);
+
+        $element = new Select($name, $options, $params);
+        $element->setLabel($label);
+        $element->setAttribute('class', 'select2');
+        if (isset($params['attr'])) {
+            if (isset($params['attr']['class'])) {
+                $params['attr']['class'] .= ' ' . $element->getAttribute('class');
+            } else {
+                $params['attr']['class'] = $element->getAttribute('class');
+            }
+            $element->setAttributes($params['attr']);
+        }
+        array_push($this->formFields, $element);
+    }
+
+    public function updateAction()
+    {
+        $model = $this->queryGetOne();
+
+        $formFields = new Form($model);
+        if (method_exists($this, 'form')) {
+            $this->form();
+        }
+        foreach ($this->formFields as $field) {
+            $formFields->add($field);
+        }
+
+        $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'Edit', 'fields' => $formFields]);
+    }
+
+    public function historyAction($id)
+    {
+        $this->dispatcher->forward([
+            'controller' => 'log-activities',
+            'action' => 'index',
+            'params' => ['ga_users', $id]
+        ]);
     }
 }

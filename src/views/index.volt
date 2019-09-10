@@ -10,8 +10,9 @@
     {{ stylesheet_link('../assets/adminlte/bower_components/bootstrap/dist/css/bootstrap.min.css') }}
     {{ stylesheet_link('../assets/adminlte/bower_components/font-awesome/css/font-awesome.min.css') }}
     {{ stylesheet_link('../assets/adminlte/bower_components/Ionicons/css/ionicons.min.css') }}
-    {{ stylesheet_link('../assets/adminlte/dist/css/AdminLTE.min.css') }}
     {{ assets.outputCss() }}
+    {{ stylesheet_link('../assets/adminlte/dist/css/AdminLTE.min.css') }}
+    {{ stylesheet_link('../assets/adminlte/dist/css/skins/_all-skins.min.css') }}
     {{ stylesheet_link('../assets/adminlte/plugins/pace/pace.min.css') }}
     {{ assets.outputInlineCss() }}
 
@@ -33,6 +34,9 @@
 {{ javascript_include('../assets/adminlte/bower_components/bootstrap/dist/js/bootstrap.min.js') }}
 {{ javascript_include('../assets/adminlte/bower_components/PACE/pace.min.js') }}
 {{ assets.outputJs() }}
+{{ javascript_include('../assets/adminlte/bower_components/jquery-slimscroll/jquery.slimscroll.min.js') }}
+{{ javascript_include('../assets/adminlte/bower_components/fastclick/lib/fastclick.js') }}
+{{ javascript_include('../assets/adminlte/dist/js/adminlte.min.js') }}
 {% do assets.addInlineJs(view.getPartial(config.application.viewsDir~'_index.js')) %}
 {{ assets.outputInlineJs() }}
 </body>

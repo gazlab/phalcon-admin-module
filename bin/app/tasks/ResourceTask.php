@@ -11,11 +11,15 @@ class ResourceTask extends TaskBase
             echo 'Please give the name of resource (--name=Foo).';
             return false;
         }
+        if (!isset($params['moduleName'])) {
+            echo 'Please give the module name (--moduleName=admin).';
+            return false;
+        }
 
         $singular = Inflector::singularize($params['name']);
         $plural = Inflector::pluralize($singular);
 
-        $modelsDir = 'app/modules/admin/models/';
+        $modelsDir = 'app/modules/' . $params['moduleName'] . '/models/';
         if (isset($params['modelsDir'])) {
             $modelsDir = $params['modelsDir'];
         }
@@ -29,7 +33,7 @@ class ResourceTask extends TaskBase
             echo 'created ' . $modelFile . PHP_EOL;
         }
 
-        $controllersDir = 'app/modules/admin/controllers/';
+        $controllersDir = 'app/modules/' . $params['moduleName'] . '/controllers/';
         if (isset($params['controllersDir'])) {
             $controllersDir = $params['controllersDir'];
         }
@@ -43,16 +47,16 @@ class ResourceTask extends TaskBase
             echo 'created ' . $controllerFile . PHP_EOL;
         }
 
-        if (!isset($params['columns'])) {
-            echo 'Please give the column of table resource.';
-            return false;
-        }
+        // if (!isset($params['columns'])) {
+        //     echo 'Please give the column of table resource.';
+        //     return false;
+        // }
 
-        $columns = explode(',', $params['columns']);
-        $columns = array_map('trim', $columns);
-        foreach ($columns as $col) {
-            list($column, $dataType) = explode(':', $col);
-        }
+        // $columns = explode(',', $params['columns']);
+        // $columns = array_map('trim', $columns);
+        // foreach ($columns as $col) {
+        //     list($column, $dataType) = explode(':', $col);
+        // }
     }
 
     public static function slugify(string $text): string

@@ -19,7 +19,7 @@ class ResourceTask extends TaskBase
         $singular = Inflector::singularize($params['name']);
         $plural = Inflector::pluralize($singular);
 
-        $modelsDir = 'app/modules/' . $params['moduleName'] . '/models/';
+        $modelsDir = 'app/common/models/';
         if (isset($params['modelsDir'])) {
             $modelsDir = $params['modelsDir'];
         }

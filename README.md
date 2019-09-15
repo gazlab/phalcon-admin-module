@@ -26,8 +26,23 @@ $ composer require --dev robmorgan/phinx
 
 #### Via Composer
 
+Create composer.json file on your root project, write like this:
+
 ```
-composer require gazlab/phalcon-admin-module
+{
+    "require": {
+        "gazlab/phalcon-admin-module": "3.x-dev"
+    },
+    "require-dev": {
+        "robmorgan/phinx": "^0.11.1",
+        "phalcon/cli-options-parser": "^1.1",
+        "doctrine/inflector": "^1.3"
+    }
+}
+```
+and install them
+```
+composer install
 ```
 
 And repeat

@@ -82,6 +82,14 @@ class ResourceController extends ControllerBase
 
     public function createAction()
     {
+        $formFields = new Form();
+        if (method_exists($this, 'form')) {
+            $this->form();
+        }
+        foreach ($this->formFields as $field) {
+            $formFields->add($field);
+        }
+
         $this->view->partial($this->config->application->viewsDir . 'contents/form', ['title' => 'New', 'fields' => $this->formFields]);
     }
 
@@ -92,6 +100,23 @@ class ResourceController extends ControllerBase
     }
 
     public function textField($params)
+    {
+        $element = new Text($params[0]);
+        $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
+        $element->setLabel($label);
+        $element->setAttribute('class', 'form-control');
+        if (isset($params['attr'])) {
+            if (isset($params['attr']['class'])) {
+                $params['attr']['class'] .= ' ' . $element->getAttribute('class');
+            } else {
+                $params['attr']['class'] = $element->getAttribute('class');
+            }
+            $element->setAttributes($params['attr']);
+        }
+        array_push($this->formFields, $element);
+    }
+
+    public function dateField($params)
     {
         $element = new Text($params[0]);
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));

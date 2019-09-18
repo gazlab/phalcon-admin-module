@@ -80,8 +80,32 @@ class ResourceController extends ControllerBase
         $this->view->partial($this->config->application->viewsDir . 'contents/table', ['title' => 'List Data', 'columns' => $this->tableColumns]);
     }
 
+    public function params()
+    {
+        return $this->request->getPost();
+    }
+
     public function createAction()
     {
+        if ($this->request->isPost()) {
+            $modelName = $this->modelName;
+            $rowData = new $modelName;
+            foreach ($this->params() as $key => $value) {
+                $rowData->$key = $value;
+            }
+            if ($rowData->save()) {
+                $this->flashSession->success('Data has been saved');
+                if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')) {
+                    return $this->response->redirect(join('/', [$this->router->getControllerName(), 'update', $rowData->id]));
+                }
+                return $this->response->redirect(join('/', [$this->router->getControllerName()]));
+            }
+
+            foreach ($rowData->getMessages() as $message) {
+                $this->flash->error($message);
+            }
+        }
+
         $formFields = new Form();
         if (method_exists($this, 'form')) {
             $this->form();
@@ -121,7 +145,8 @@ class ResourceController extends ControllerBase
         $element = new Text($params[0]);
         $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
         $element->setLabel($label);
-        $element->setAttribute('class', 'form-control');
+        $element->setAttributes(['class' => 'form-control', 'autocomplete' => 'off']);
+        $element->setUserOption('element', 'datepicker');
         if (isset($params['attr'])) {
             if (isset($params['attr']['class'])) {
                 $params['attr']['class'] .= ' ' . $element->getAttribute('class');
@@ -192,9 +217,24 @@ class ResourceController extends ControllerBase
 
     public function updateAction()
     {
-        $model = $this->queryGetOne();
+        $rowData = $this->queryGetOne();
 
-        $formFields = new Form($model);
+        if ($this->request->isPost()) {
+            foreach ($this->params() as $key => $value) {
+                $rowData->$key = $value;
+            }
+            if ($rowData->save()) {
+                $this->flashSession->success('Data has been changed');
+
+                return $this->response->redirect(join('/', [$this->router->getControllerName(), 'update', $rowData->id]));
+            }
+
+            foreach ($rowData->getMessages() as $message) {
+                $this->flash->error($message);
+            }
+        }
+
+        $formFields = new Form($rowData);
         if (method_exists($this, 'form')) {
             $this->form();
         }
@@ -207,10 +247,13 @@ class ResourceController extends ControllerBase
 
     public function historyAction($id)
     {
+        $model = new $this->modelName;
+
         $this->dispatcher->forward([
+            'namespace' => 'Gazlab\Admin\Controllers',
             'controller' => 'log-activities',
             'action' => 'index',
-            'params' => ['ga_users', $id]
+            'params' => [$model->getSource(), $id]
         ]);
     }
 }

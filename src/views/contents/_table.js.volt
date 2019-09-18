@@ -1,4 +1,6 @@
 var table_list_data = $('#list_data').DataTable({
+    responsive: true,
+    processing:true,
     serverSide: true,
     ajax: {
         url: '{{ router.getRewriteUri() }}',

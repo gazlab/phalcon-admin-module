@@ -104,7 +104,9 @@
     </div>
 
     {% do assets.addCss('../assets/adminlte/bower_components/select2/dist/css/select2.min.css') %}
+    {% do assets.addCss('../assets/adminlte/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') %}
     {% do assets.addInlineCss(view.getPartial(view.getLayoutsDir()~'_private.css')) %}
 
     {% do assets.addJs('../assets/adminlte/bower_components/select2/dist/js/select2.full.min.js') %}
+    {% do assets.addJs('../assets/adminlte/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') %}
     {% do assets.addInlineJs(view.getPartial(view.getLayoutsDir()~'_private.js')) %}

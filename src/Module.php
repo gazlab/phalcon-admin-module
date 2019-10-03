@@ -15,6 +15,7 @@ use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Flash\Session as FlashSession;
 use Phalcon\Mvc\Dispatcher;
+use Adldap\Adldap;
 
 class Module implements ModuleDefinitionInterface
 {
@@ -193,6 +194,13 @@ class Module implements ModuleDefinitionInterface
             $dispatcher = new Dispatcher();
             $dispatcher->setEventsManager($eventsManager);
             return $dispatcher;
+        };
+
+        $di['ldap'] = function () {
+            $config = $this->getConfig()->ldap->toArray();
+            unset($config['status']);
+            $ldap = new Adldap($config);
+            return $ldap;
         };
     }
 }

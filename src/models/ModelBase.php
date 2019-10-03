@@ -2,6 +2,7 @@
 
 namespace Gazlab\Admin\Models;
 
+use Phalcon\Di;
 use Phalcon\Mvc\Model\Behavior\Timestampable;
 
 class ModelBase extends \Phalcon\Mvc\Model
@@ -19,8 +20,11 @@ class ModelBase extends \Phalcon\Mvc\Model
             )
         );
 
-        $this->addBehavior(
-            new \Gazlab\LogActivities()
-        );
+        $config = Di::getDefault()->get('config');
+        if ($config->gazlab->logActivities->status) {
+            $this->addBehavior(
+                new \Gazlab\LogActivities()
+            );
+        }
     }
 }

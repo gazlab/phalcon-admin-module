@@ -18,9 +18,6 @@ class User extends ModelBase
         if (is_null($this->avatar)) {
             $gravatar = $this->getDI()->get('gravatar');
             $this->avatar = $gravatar->getAvatar($this->username);
-        } else {
-            $url = new \Phalcon\Mvc\Url();
-            $this->avatar = $url->get('../' . $this->avatar);
         }
     }
 }

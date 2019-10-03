@@ -82,7 +82,7 @@ class SessionController extends ControllerBase
                     $filename = $user->username . '.jpg';
                     $avatarPath = $avatarDir . $filename;
                     file_put_contents($avatarPath, file_get_contents('http://pwb-esshr.aon.telkom.co.id/index.php?r=pwbPhoto/profilePhoto&nik=' . $user->username));
-                    $user->avatar = $avatarRelativePath . $filename;
+                    $user->avatar = '../' . $avatarRelativePath . $filename;
                 }
                 $user->save();
             }

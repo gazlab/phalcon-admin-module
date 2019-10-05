@@ -2,6 +2,7 @@ var table_list_data = $('#list_data').DataTable({
     responsive: true,
     processing:true,
     serverSide: true,
+    saveState: true,
     ajax: {
         url: '{{ router.getRewriteUri() }}',
         method: 'POST'
@@ -30,5 +31,14 @@ var table_list_data = $('#list_data').DataTable({
         <?php array_push($dtColumns, '{'.join(',',$attr).'}') ?>
     {% endfor %}
     columns: [{{ dtColumns|join(',') }}],
-    mark: true
+    mark: true,
+    drawCallback: function () { 
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            placement: "left",
+            delay: {
+                hide: "100"
+            }
+        });
+    }
 });

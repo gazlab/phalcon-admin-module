@@ -38,11 +38,18 @@ class ResourceController extends ControllerBase
     {
         // Edit Actions
         if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')) {
-            array_push($actions, '<a href=\"' . $this->url->get(join('/', [$this->router->getControllerName(), 'update'])) . '/"+row.DT_RowId+"\" class=\"btn btn-default\" title=\"Edit\"><i class=\"fa fa-edit\"></i></a>');
+            array_push($actions, '<a href="' . $this->url->get(join('/', [$this->router->getControllerName(), 'update'])) . '/\'+row.DT_RowId+\'" class="btn btn-default" title="Edit"><i class="fa fa-edit"></i></a>');
+        }
+        // Delete Actions
+        if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'delete')) {
+            $buttons = [];
+            array_push($buttons, $this->escaper->escapeHtmlAttr('<a href="' . $this->url->get(join('/', [$this->router->getControllerName(), 'delete'])) . '/') . '\'+row.DT_RowId+\'' . $this->escaper->escapeHtmlAttr('" class="btn btn-danger">Yes</a>'));
+            array_push($buttons, $this->escaper->escapeHtmlAttr('<a role="button" class="btn btn-default">No</a>'));
+            array_push($actions, '<a tabindex="0" class="btn btn-lg btn-danger" role="button" data-toggle="popover" data-trigger="focus" title="Are you sure?" data-content="' . $this->escaper->escapeHtmlAttr('<div class="btn-group">') . join('', $buttons) . $this->escaper->escapeHtmlAttr('</div>') . '"><i class="fa fa-trash"></i></a>');
         }
 
         $params['header'] = '';
-        $params['dataTable'] = ['data' => 'DT_Actions', 'searchable' => false, 'orderable' => false, 'render' => 'return "<div class=\"btn-group btn-group-xs\">' . join('', $actions) . '</div>"'];
+        $params['dataTable'] = ['data' => 'DT_Actions', 'searchable' => false, 'orderable' => false, 'render' => "return '<div class=\"btn-group btn-group-sm\">" . join('', $actions) . "</div>'"];
 
         array_push($this->tableColumns, $params);
     }

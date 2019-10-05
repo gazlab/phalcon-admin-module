@@ -98,8 +98,9 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     public function getResources()
     {
         $resources['managements'] = [];
-
-        array_push($resources['managements'], new UsersController());
+        if ($this->userSession->profile_id == 1) {
+            array_push($resources['managements'], new UsersController());
+        }
 
         if (isset($resources[0]) && $this->router->getControllerName() === $resources[0]->menu[0]) {
             $this->resource = $resources[0];

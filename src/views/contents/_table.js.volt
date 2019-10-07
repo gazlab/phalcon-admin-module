@@ -42,3 +42,16 @@ var table_list_data = $('#list_data').DataTable({
         });
     }
 });
+
+table_list_data.on('click', ".btn-yes-delete", function (e) {
+    e.preventDefault();
+    
+    $.ajax({
+        type: "delete",
+        url: $(this).attr("href"),
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+        }
+    });
+});

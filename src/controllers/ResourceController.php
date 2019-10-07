@@ -205,7 +205,7 @@ class ResourceController extends ControllerBase
         unset($params[0]);
         $options = $params[1];
         unset($params[1]);
-        $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($params[0]));
+        $label = isset($params['label']) ? $params['label'] : ucwords(\Phalcon\Text::humanize($name));
         unset($params['label']);
 
         $element = new Select($name, $options, $params);
@@ -264,10 +264,24 @@ class ResourceController extends ControllerBase
         ]);
     }
 
-    public function deleteAction($id)
+    public function deleteAction()
     {
         $this->view->disable();
+        if ($this->request->isDelete()) {
+            $rowData = $this->queryGetOne();
 
-        return $this->response->setJsonContent($id)->send();
+            $this->flash->setImplicitFlush(false);
+            if (!$rowData->delete()) {
+                $messages = [];
+                foreach ($rowData->getMessages() as $msg) {
+                    array_push($messages, $this->flash->error($msg));
+                }
+                $messages = join('', $messages);
+            } else {
+                $messages = $this->flash->warning('Data has been deleted');
+            }
+
+            return $this->response->setContent($messages)->send();
+        }
     }
 }

@@ -23,4 +23,6 @@
     <!-- /.box-body -->
 </div>
 
+{% do assets.addInlineCss(view.getPartial(config.application.viewsDir~'contents/_table.css')) %}
+
 {% do assets.addInlineJs(view.getPartial(config.application.viewsDir~'contents/_table.js')) %}

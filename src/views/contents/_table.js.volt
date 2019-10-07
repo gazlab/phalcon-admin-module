@@ -38,20 +38,22 @@ var table_list_data = $('#list_data').DataTable({
             placement: "left",
             delay: {
                 hide: "100"
-            }
+            },
+            container: "body"
         });
     }
 });
 
-table_list_data.on('click', ".btn-yes-delete", function (e) {
+$("body").on('click', ".btn-yes-delete", function (e) {
     e.preventDefault();
     
     $.ajax({
         type: "delete",
         url: $(this).attr("href"),
-        dataType: "json",
+        dataType: "html",
         success: function (response) {
-            console.log(response);
+            $(response).prependTo(".content");
+            table_list_data.ajax.reload( null, false );
         }
     });
 });

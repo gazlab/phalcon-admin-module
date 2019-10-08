@@ -10,6 +10,9 @@ return [
             'lg' => '<b>Gazlab</b>Admin',
             'sm' => '<b>GA</b>Z',
         ],
-        'footer' => '<strong>Copyright &copy; 2019 Gazlab Admin.</strong> All rights reserved.'
+        'footer' => '<strong>Copyright &copy; 2019 Gazlab Admin.</strong> All rights reserved.',
+        'logActivities' => [
+            'status' => false
+        ]
     ]
 ];

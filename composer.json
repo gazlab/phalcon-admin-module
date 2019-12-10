@@ -14,5 +14,10 @@
     },
     "require-dev": {
         "phalcon/ide-stubs": "^3.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gazlab\\Admin\\": "src/"
+        }
     }
 }

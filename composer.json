@@ -10,7 +10,9 @@
         }
     ],
     "require": {
-        "almasaeed2010/adminlte": "~3.0"
+        "almasaeed2010/adminlte": "~3.0",
+        "wyrihaximus/html-compress": "^2.0",
+        "sergeyklay/breadcrumbs": "^1.4"
     },
     "require-dev": {
         "phalcon/ide-stubs": "^3.4"

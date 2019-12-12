@@ -40,9 +40,9 @@ class Module implements ModuleDefinitionInterface
          * Try to load local configuration
          */
         if (file_exists(__DIR__ . '/config/config.php')) {
-            
+
             $config = $di['config'];
-            
+
             $override = new Config(include __DIR__ . '/config/config.php');
 
             if ($config instanceof Config) {
@@ -60,7 +60,7 @@ class Module implements ModuleDefinitionInterface
 
             $view = new View();
             $view->setViewsDir($config->get('application')->viewsDir);
-            
+
             $view->registerEngines([
                 '.volt'  => 'voltShared',
                 '.phtml' => PhpEngine::class
@@ -81,6 +81,10 @@ class Module implements ModuleDefinitionInterface
             unset($config['adapter']);
 
             return new $dbAdapter($dbConfig);
+        };
+
+        $di['breadcrumbs'] = function () {
+            return new \Phalcon\Breadcrumbs;
         };
     }
 }

@@ -9,5 +9,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
         $this->tag->setTitle('Gazlab Admin');
 
         $this->view->setTemplateBefore('private');
+
+        $this->breadcrumbs->add('Home', '/');
     }
 }

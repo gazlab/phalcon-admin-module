@@ -84,7 +84,14 @@ class Module implements ModuleDefinitionInterface
         };
 
         $di['breadcrumbs'] = function () {
-            return new \Phalcon\Breadcrumbs;
+            $breadcrumbs = new \Phalcon\Breadcrumbs;
+            $breadcrumbs->setTemplate(
+                '<li class="breadcrumb-item"><a href="{{link}}">{{icon}}{{label}}</a></li>', // linked
+                '<li class="breadcrumb-item active">{{icon}}{{label}}</li>',         // not linked
+                '<i class="fa fa-dashboard"></i>'                    // first icon
+            );
+            
+            return $breadcrumbs;
         };
     }
 }

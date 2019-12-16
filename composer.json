@@ -12,10 +12,12 @@
     "require": {
         "almasaeed2010/adminlte": "~3.0",
         "wyrihaximus/html-compress": "^2.0",
-        "sergeyklay/breadcrumbs": "^1.4"
+        "sergeyklay/breadcrumbs": "^1.4",
+        "phalcon/incubator": "^3.4"
     },
     "require-dev": {
-        "phalcon/ide-stubs": "^3.4"
+        "phalcon/ide-stubs": "^3.4",
+        "robmorgan/phinx": "^0.11.1"
     },
     "autoload": {
         "psr-4": {

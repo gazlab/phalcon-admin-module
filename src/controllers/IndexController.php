@@ -6,6 +6,11 @@ class IndexController extends ControllerBase
 {
     public function indexAction()
     {
-        # code...
+        if ($this->session->has('uId')) { } else {
+            $this->dispatcher->forward([
+                'controller' => 'session',
+                'action' => 'signIn'
+            ]);
+        }
     }
 }

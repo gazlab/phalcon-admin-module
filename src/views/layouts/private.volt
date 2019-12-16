@@ -13,15 +13,15 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
-                        <img src="{{ url('../assets/adminlte/dist/img/user2-160x160.jpg') }}"
+                        <img src="{{ url('/../assets/adminlte/dist/img/user2-160x160.jpg') }}"
                             class="user-image img-circle elevation-2" alt="User Image">
-                        <span class="d-none d-md-inline">Alexander Pierce</span>
+                        <span class="d-none d-md-inline">{{ userSession.name is defined ? userSession.name : userSession.username }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <li><a href="#" class="dropdown-item">Profile</a></li>
 
                         <li class="dropdown-divider"></li>
-                        <li><a href="#" class="dropdown-item">Sign Out</a></li>
+                        <li><a href="{{ url('/session/signOut') }}" class="dropdown-item">Sign Out</a></li>
                     </ul>
                 </li>
             </ul>
@@ -32,7 +32,7 @@
         <aside class="main-sidebar sidebar-dark-navy elevation-4">
             <!-- Brand Logo -->
             <a href="{{ url() }}" class="brand-link navbar-purple">
-                <img src="{{ url('../assets/adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
+                <img src="{{ url('/../assets/adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
                 <span class="brand-text font-weight-light">Gazlab Admin</span>
             </a>
@@ -576,8 +576,6 @@
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 {{ breadcrumbs.output() }}
-                                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                                <li class="breadcrumb-item active">Pace</li>
                             </ol>
                         </div>
                     </div>

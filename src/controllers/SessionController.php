@@ -36,8 +36,11 @@ class SessionController extends ControllerBase
 
     public function signOutAction()
     {
+        $this->view->disable();
+
         $this->session->destroy();
 
         return $this->response->redirect();
     }
+
 }

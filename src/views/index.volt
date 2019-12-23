@@ -27,10 +27,12 @@
 {{ javascript_include('/../assets/adminlte/plugins/jquery/jquery.min.js') }}
 <!-- Bootstrap 4 -->
 {{ javascript_include('/../assets/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js') }}
+{{ assets.outputJs() }}
 <!-- pace-progress -->
 {{ javascript_include('/../assets/adminlte/plugins/pace-progress/pace.min.js') }}
 <!-- AdminLTE App -->
 {{ javascript_include('/../assets/adminlte/dist/js/adminlte.min.js') }}
+{{ assets.outputInlineJs() }}
 </body>
 
 </html>

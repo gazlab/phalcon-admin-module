@@ -46,14 +46,14 @@
                         data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
-                        {% for group, resource in resources %}
+                        {% for group, menu in resources %}
                         <?php if (!is_int($group)) { ?>
                         <li class="nav-header"><?= strtoupper(\Phalcon\Text::humanize($group)) ?></li>
-                        {% for child in resource %}
+                        {% for child in menu %}
                         <li class="nav-item">
-                            <a href="{{ url('/'~child.menu[0]) }}" class="nav-link">
+                            <a href="{{ url('/'~child.menu[0]) }}" class="nav-link {{ dispatcher.getControllerName() === child.menu[0] ? 'active' : null }}">
                                 <i class="nav-icon {{ child.menu['icon'] }}"></i>
-                                <p><?= ucwords(\Phalcon\Text::humanize($child->menu[0])) ?></p>
+                                <p>{{ child.menu['name'] }}</p>
                             </a>
                         </li>
                         {% endfor %}
@@ -73,7 +73,7 @@
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1>Pace</h1>
+                            <h1>{{ resource.menu['name'] }}</h1>
                         </div>
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">

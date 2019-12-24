@@ -12,6 +12,7 @@ use Phalcon\Config;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Flash\Session;
+use Phalcon\Mvc\Dispatcher;
 use WyriHaximus\HtmlCompress\Factory;
 
 class Module implements ModuleDefinitionInterface
@@ -106,6 +107,8 @@ class Module implements ModuleDefinitionInterface
 
         $di['breadcrumbs'] = function () {
             $breadcrumbs = new \Phalcon\Breadcrumbs;
+            $breadcrumbs->setSeparator('');
+            $breadcrumbs->setLastNotLinked(true);
             $breadcrumbs->setTemplate(
                 '<li class="breadcrumb-item"><a href="{{link}}">{{icon}}{{label}}</a></li>', // linked
                 '<li class="breadcrumb-item active">{{icon}}{{label}}</li>',         // not linked
@@ -162,6 +165,24 @@ class Module implements ModuleDefinitionInterface
             $pr = $this->getShared('AclResources');
             $acl->addPrivateResources($pr);
             return $acl;
+        };
+
+        $di['dispatcher'] = function () {
+            // Create an event manager
+            $eventsManager = new Manager();
+            // Attach a listener for type 'dispatch'
+            $eventsManager->attach(
+                'dispatch:beforeDispatchLoop',
+                function (Event $event, $dispatcher) {
+                    if (!in_array($dispatcher->getControllerName(), ['index', 'session', 'users'])) {
+                        $dispatcher->setNamespaceName('');
+                    }
+                }
+            );
+            $dispatcher = new Dispatcher();
+            // Bind the eventsManager to the view component
+            $dispatcher->setEventsManager($eventsManager);
+            return $dispatcher;
         };
     }
 }

@@ -12,6 +12,7 @@
     {{ stylesheet_link('/../assets/adminlte/plugins/fontawesome-free/css/all.min.css') }}
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    {{ assets.outputCss() }}
     <!-- pace-progress -->
     {{ stylesheet_link('/../assets/adminlte/plugins/pace-progress/themes/black/pace-theme-flat-top.css') }}
     <!-- adminlte-->

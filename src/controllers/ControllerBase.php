@@ -22,21 +22,34 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     // }
 
     public $userSession;
+    public $resources;
+    public $resource;
 
     public function initialize()
     {
         $this->tag->setTitle('Gazlab Admin');
+
         $this->breadcrumbs->add('Home', $this->url->get());
+        if ($this->resource) {
+            if ($this->dispatcher->getControllerName() !== 'index') {
+                $this->breadcrumbs->add($this->resource->menu['name'], $this->url->get('/' . $this->resource->menu[0]));
+            }
+            if ($this->dispatcher->getActionName() !== 'index') {
+                $this->breadcrumbs->add(ucwords(Text::humanize($this->dispatcher->getActionName())), $this->url->get('/' . $this->dispatcher->getControllerName() . '/' . $this->dispatcher->getActionName()));
+            }
+        }
     }
 
     public function beforeExecuteRoute(Dispatcher $dispatcher)
     {
         if ($this->session->has('uId')) {
             $this->userSession = User::findFirst($this->session->get('uId'));
+            $this->resources = $this->getResources();
             $this->view->setVars([
                 'userSession' => $this->userSession,
-                'resources' => $this->getResources()
+                'resources' => $this->resources
             ]);
+            $this->view->resource = $this->resource;
             $this->view->setTemplateBefore('private');
         }
 
@@ -88,6 +101,10 @@ class ControllerBase extends \Phalcon\Mvc\Controller
             $className = Text::camelize($permission->resource . '-controller');
             if (class_exists($className)) {
                 $source = new $className;
+                $source->menu['name'] = isset($source->menu['name']) ? $source->menu['name'] : ucwords(Text::humanize($source->menu[0]));
+                if ($this->dispatcher->getControllerName() === $source->menu[0]) {
+                    $this->resource = $source;
+                }
                 if (isset($source->menu['group'])) {
                     $resources[$source->menu['group']][] = $source;
                 } else {

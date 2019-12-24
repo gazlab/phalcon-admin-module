@@ -13,7 +13,8 @@
         "almasaeed2010/adminlte": "~3.0",
         "wyrihaximus/html-compress": "^2.0",
         "sergeyklay/breadcrumbs": "^1.4",
-        "phalcon/incubator": "^3.4"
+        "phalcon/incubator": "^3.4",
+        "gazlab/phalcon-datatables": "^1.1"
     },
     "require-dev": {
         "phalcon/ide-stubs": "^3.4",

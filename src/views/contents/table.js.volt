@@ -1,1 +1,57 @@
-$("#example1").DataTable();
+var table_list_data = $("#example1").DataTable({
+    "processing": true,
+    "serverSide": true,
+    "ajax": {
+        "url": '{{ router.getRewriteUri() }}',
+        "method": 'POST'
+    },
+    {% set dtColumns = [] %}
+    {% for column in columns %}
+        {% set attr = [] %}
+        {% for option, value in column %}
+            {% switch option %}
+                {% case 'render' %}
+                    {% set value = 'function(data, type, row, meta){'~value~'}' %}
+                    <?php array_push($attr, $option.':'.$value) ?>
+                    {% break %}
+                {% default %}
+                <?php
+                    if (is_string($value)) {
+                        array_push($attr, $option.':"'.$value.'"');
+                    }elseif (is_bool($value)){
+                        array_push($attr, $option.':'.(($value) ? 'true' : 'false'));
+                    }else{
+                        array_push($attr, $option.':'.$value);
+                    }
+                ?>
+            {% endswitch %}
+        {% endfor %}
+        <?php array_push($dtColumns, '{'.join(',',$attr).'}') ?>
+    {% endfor %}
+    "columns": [{{ dtColumns|join(',') }}],
+    "mark": true,
+    "drawCallback": function () { 
+        $('[data-toggle="popover"]').popover({
+            html: true,
+            placement: "left",
+            delay: {
+                hide: "100"
+            },
+            container: "body"
+        });
+    }
+});
+
+$("body").on('click', ".btn-yes-delete", function (e) {
+    e.preventDefault();
+    
+    $.ajax({
+        type: "delete",
+        url: $(this).attr("href"),
+        dataType: "html",
+        success: function (response) {
+            $(response).prependTo(".content");
+            table_list_data.ajax.reload( null, false );
+        }
+    });
+});

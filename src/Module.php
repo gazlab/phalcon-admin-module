@@ -12,6 +12,7 @@ use Phalcon\Config;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
 use Phalcon\Flash\Session;
+use Phalcon\Logger\Adapter\File;
 use Phalcon\Mvc\Dispatcher;
 use WyriHaximus\HtmlCompress\Factory;
 
@@ -33,7 +34,8 @@ class Module implements ModuleDefinitionInterface
         ]);
 
         $loader->registerDirs([
-            APP_PATH . '/modules/' . $di['router']->getModuleName() . '/controllers'
+            APP_PATH . '/modules/' . $di['router']->getModuleName() . '/controllers',
+            APP_PATH . '/common/models'
         ]);
 
         $loader->register();
@@ -95,6 +97,18 @@ class Module implements ModuleDefinitionInterface
          * Database connection is created based in the parameters defined in the configuration file
          */
         $di['db'] = function () {
+            $eventsManager = new Manager();
+            $logger = $this->getShared('logger');
+
+            $eventsManager->attach(
+                'db:beforeQuery',
+                function ($event, $connection) use ($logger) {
+                    $logger->info(
+                        $connection->getSQLStatement()
+                    );
+                }
+            );
+
             $config = $this->getConfig();
 
             $dbConfig = $config->database->toArray();
@@ -102,7 +116,10 @@ class Module implements ModuleDefinitionInterface
             $dbAdapter = '\Phalcon\Db\Adapter\Pdo\\' . $dbConfig['adapter'];
             unset($config['adapter']);
 
-            return new $dbAdapter($dbConfig);
+            $connection = new $dbAdapter($dbConfig);
+            $connection->setEventsManager($eventsManager);
+
+            return $connection;
         };
 
         $di['breadcrumbs'] = function () {
@@ -183,6 +200,14 @@ class Module implements ModuleDefinitionInterface
             // Bind the eventsManager to the view component
             $dispatcher->setEventsManager($eventsManager);
             return $dispatcher;
+        };
+
+        $di['logger'] = function () {
+            $dir = APP_PATH . '/logs';
+            if (!is_dir($dir)) {
+                mkdir($dir);
+            }
+            return new File($dir . '/' . date('Ymd') . '.log');
         };
     }
 }

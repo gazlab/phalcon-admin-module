@@ -1,7 +1,7 @@
 <body class="hold-transition login-page">
     <div class="login-box">
         <div class="login-logo">
-            <a href="{{ url() }}"><b>Gazlab</b>Admin</a>
+            <a href="{{ url() }}">{{ config.gazlab.title.lg is defined ? config.gazlab.title.lg : '<b>Gazlab</b> Admin' }}</a>
         </div>
         <!-- /.login-logo -->
         <div class="card">

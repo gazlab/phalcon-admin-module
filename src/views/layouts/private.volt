@@ -35,7 +35,7 @@
             <a href="{{ url() }}" class="brand-link navbar-purple">
                 <img src="{{ url('/../assets/adminlte/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">Gazlab Admin</span>
+                <span class="brand-text font-weight-light">{{ config.gazlab.title.lg is defined ? config.gazlab.title.lg : 'Gazlab Admin' }}</span>
             </a>
 
             <!-- Sidebar -->
@@ -51,12 +51,21 @@
                         <li class="nav-header"><?= strtoupper(\Phalcon\Text::humanize($group)) ?></li>
                         {% for child in menu %}
                         <li class="nav-item">
-                            <a href="{{ url('/'~child.menu[0]) }}" class="nav-link {{ dispatcher.getControllerName() === child.menu[0] ? 'active' : null }}">
+                            <a href="{{ url('/'~child.menu[0]) }}"
+                                class="nav-link {{ dispatcher.getControllerName() === child.menu[0] ? 'active' : null }}">
                                 <i class="nav-icon {{ child.menu['icon'] }}"></i>
                                 <p>{{ child.menu['name'] }}</p>
                             </a>
                         </li>
                         {% endfor %}
+                        <?php } else { ?>
+                        <li class="nav-item">
+                            <a href="{{ url('/'~menu.menu[0]) }}"
+                                class="nav-link {{ dispatcher.getControllerName() === menu.menu[0] ? 'active' : null }}">
+                                <i class="nav-icon {{ menu.menu['icon'] }}"></i>
+                                <p>{{ menu.menu['name'] }}</p>
+                            </a>
+                        </li>
                         <?php } ?>
                         {% endfor %}
                     </ul>

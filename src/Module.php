@@ -62,6 +62,17 @@ class Module implements ModuleDefinitionInterface
             } else {
                 $config = $override;
             }
+
+            $fileConfig = APP_PATH . '/modules/' . $di['router']->getModuleName() . '/config/config.php';
+            if (file_exists($fileConfig)) {
+                $override = new Config(include $fileConfig);
+
+                if ($config instanceof Config) {
+                    $config->merge($override);
+                } else {
+                    $config = $override;
+                }
+            }
         }
 
         /**

@@ -16,6 +16,7 @@ class IndexController extends ControllerBase
                     ]);
                 } else {
                     $this->dispatcher->forward([
+                        'namespace' => '',
                         'controller' => $this->resources[0]->menu[0]
                     ]);
                 }

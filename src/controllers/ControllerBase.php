@@ -27,7 +27,8 @@ class ControllerBase extends \Phalcon\Mvc\Controller
 
     public function initialize()
     {
-        $this->tag->setTitle('Gazlab Admin');
+        $title = isset($this->config->gazlab->title->lg) ? strip_tags($this->config->gazlab->title->lg) : 'Gazlab Admin';
+        $this->tag->setTitle($title);
 
         $this->breadcrumbs->add('Home', $this->url->get());
         if ($this->resource) {
@@ -112,6 +113,8 @@ class ControllerBase extends \Phalcon\Mvc\Controller
                 }
             }
         }
+
+        ksort($resources, SORT_STRING);
 
         return $resources;
     }

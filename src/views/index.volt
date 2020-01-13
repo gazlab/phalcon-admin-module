@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     {{ assets.outputCss() }}
     <!-- pace-progress -->
-    {{ stylesheet_link('/../assets/adminlte/plugins/pace-progress/themes/purple/pace-theme-mac-osx.css') }}
+    {{ stylesheet_link('/../assets/adminlte/plugins/pace-progress/themes/purple/pace-theme-corner-indicator.css') }}
     <!-- adminlte-->
     {{ stylesheet_link('/../assets/adminlte/dist/css/adminlte.min.css') }}
     <!-- Google Font: Source Sans Pro -->

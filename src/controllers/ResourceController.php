@@ -13,7 +13,7 @@ class ResourceController extends ControllerBase
 
     public function column($params)
     {
-        $params['data'] = $params[0];
+        $params['data'] = isset($params['alias']) ? $params['alias'] : $params[0];
         $params['title'] = isset($params['header']) ? $params['header'] : ucwords(Text::humanize($params['data']));
 
         array_push($this->columns, $params);
@@ -54,7 +54,11 @@ class ResourceController extends ControllerBase
             $columns = [];
             foreach ($this->columns as $column) {
                 if (isset($column[0])) {
-                    array_push($columns, $column[0]);
+                    if (isset($column['alias'])) {
+                        array_push($columns, [$column[0], 'alias' => $column['alias']]);
+                    } else {
+                        array_push($columns, $column[0]);
+                    }
                 }
             }
 
@@ -203,5 +207,20 @@ class ResourceController extends ControllerBase
             }
             return $this->response->setContent($messages)->send();
         }
+    }
+
+    public function isCreateAction()
+    {
+        return $this->dispatcher->getActionName() === 'create';
+    }
+    
+    public function isUpdateAction()
+    {
+        return $this->dispatcher->getActionName() === 'update';
+    }
+    
+    public function isDeleteAction()
+    {
+        return $this->dispatcher->getActionName() === 'delete';
     }
 }

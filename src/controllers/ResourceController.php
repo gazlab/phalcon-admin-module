@@ -351,7 +351,7 @@ class ResourceController extends ControllerBase
 
     public function queryGetOne()
     {
-        $modelName = ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName()));
+        $modelName = $this->getModelName();
         return $modelName::findFirst($this->dispatcher->getParams()[0]);
     }
 

@@ -300,7 +300,7 @@ class ResourceController extends ControllerBase
             }
 
             $modelName = $this->getModelName();
-            
+
             $model = new $modelName();
             foreach ($this->params() as $field => $value) {
                 $model->$field = $value;
@@ -320,10 +320,12 @@ class ResourceController extends ControllerBase
 
                 $this->flashSession->success('Data has been saved');
 
-                if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')) {
-                    return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update', $model->id]));
-                } else {
-                    return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName()]));
+                if ($this->userSession) {
+                    if ($this->acl->isAllowed($this->userSession->profile->name, $this->router->getControllerName(), 'update')) {
+                        return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName(), 'update', $model->id]));
+                    } else {
+                        return $this->response->redirect(join('/', [$this->router->getModuleName(), $this->router->getControllerName()]));
+                    }
                 }
             }
         }

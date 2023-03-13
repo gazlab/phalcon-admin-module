@@ -8,10 +8,12 @@ use Phalcon\Forms\Form;
 class ResourceController extends ControllerBase
 {
     public function table()
-    { }
+    {
+    }
 
     public function form()
-    { }
+    {
+    }
 
     public function params()
     {
@@ -279,12 +281,12 @@ class ResourceController extends ControllerBase
 
     public function getModelName()
     {
-        return $this->modelName === null ? ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName())) : $this->modelName;
+        return $this->modelName !== null ? $this->modelName : ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName()));
     }
-    
+
     public function setModelName($modelName)
     {
-        return $this->modelName = $modelName;
+        $this->modelName = $modelName;
     }
 
     public function createAction()

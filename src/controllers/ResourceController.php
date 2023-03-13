@@ -300,7 +300,7 @@ class ResourceController extends ControllerBase
             }
 
             $modelName = $this->getModelName();
-            $this->logger->debug($modelName);
+            
             $model = new $modelName();
             foreach ($this->params() as $field => $value) {
                 $model->$field = $value;

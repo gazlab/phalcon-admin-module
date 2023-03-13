@@ -279,14 +279,14 @@ class ResourceController extends ControllerBase
 
     public $modelName = null;
 
-    public function getModelName()
-    {
-        return $this->modelName !== null ? $this->modelName : ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName()));
-    }
-
     public function setModelName($modelName)
     {
         $this->modelName = $modelName;
+    }
+
+    public function getModelName()
+    {
+        return $this->modelName !== null ? $this->modelName : ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName()));
     }
 
     public function createAction()
@@ -300,6 +300,7 @@ class ResourceController extends ControllerBase
             }
 
             $modelName = $this->getModelName();
+            $this->logger->debug($modelName);
             $model = new $modelName();
             foreach ($this->params() as $field => $value) {
                 $model->$field = $value;

@@ -275,6 +275,18 @@ class ResourceController extends ControllerBase
         return $this->insertId;
     }
 
+    public $modelName = null;
+
+    public function getModelName()
+    {
+        return $this->modelName === null ? ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName())) : $this->modelName;
+    }
+    
+    public function setModelName($modelName)
+    {
+        return $this->modelName = $modelName;
+    }
+
     public function createAction()
     {
         if ($this->request->isPost()) {
@@ -285,7 +297,7 @@ class ResourceController extends ControllerBase
                 $this->beforeSave();
             }
 
-            $modelName = ucwords(\Phalcon\Text::camelize($this->router->getCOntrollerName()));
+            $modelName = $this->getModelName();
             $model = new $modelName();
             foreach ($this->params() as $field => $value) {
                 $model->$field = $value;

@@ -130,10 +130,12 @@
     {% do assets.addCss('gazlab_assets/bower_components/bootstrap-daterangepicker/daterangepicker.css') %}
     {% do assets.addCss('gazlab_assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css') %}
     {% do assets.addCss('https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css', false) %}
+    {% do assets.addCss("https://cdn.datatables.net/select/1.3.3/css/select.bootstrap.min.css", false) %}
 
     {% do assets.addJs('gazlab_assets/bower_components/datatables.net/js/jquery.dataTables.min.js') %}
     {% do assets.addJs('gazlab_assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') %}
     {% do assets.addJs('https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js', false) %}
+    {% do assets.addJs("https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js", false) %}
 
     {% do assets.addJs('gazlab_assets/bower_components/select2/dist/js/select2.full.min.js') %}
 

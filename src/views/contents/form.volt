@@ -45,6 +45,6 @@
 </div>
 {% endif %}
 
-{% do assets.addJs('//cdn.ckeditor.com/4.21.0/standard/ckeditor.js', false) %}
+{% do assets.addJs('//cdn.ckeditor.com/4.21.0/full/ckeditor.js', false) %}
 
 {% do assets.addInlineJs(view.getPartial(config.application.viewsDir~'/contents/form.js')) %}

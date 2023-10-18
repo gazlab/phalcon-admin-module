@@ -21,7 +21,11 @@
         <?php 
             switch (get_class($field)) {
                 case 'Phalcon\Forms\Element\File':
-                    $this->view->partial($this->config->application->viewsDir.'/contents/elementFile', ['element' => $field]);
+                    if ($field->getUserOption('take_picture') == true){
+                        $this->view->partial($this->config->application->viewsDir.'/contents/elementTakePicture', ['element' => $field]);
+                    } else {
+                        $this->view->partial($this->config->application->viewsDir.'/contents/elementFile', ['element' => $field]);
+                    }
                     break;
                 default:
                 ?>

@@ -211,6 +211,9 @@ class ResourceController extends ControllerBase
         if (isset($params['help_message'])) {
             $element->setUserOption('help_message', $params['help_message']);
         }
+        if (isset($params['take_picture'])) {
+            $element->setUserOption('take_picture', $params['take_picture']);
+        }
         if (isset($params['attr'])) {
             $element->setAttributes($params['attr']);
         }
